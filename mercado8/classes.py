@@ -1,3 +1,5 @@
+import random
+
 class BankManager:
       def __init__(self): 
             pass
@@ -110,10 +112,6 @@ class Bank():
             for stored_account in self.allbank_accounts:
                   monthly_interest =  stored_account.balance * (percent / 12)
                   stored_account.balance += monthly_interest
-            
-            
-
-
 class CoinCollector():
       # constructor so you cannot instantiate this class
       def __init__(self):
@@ -137,32 +135,45 @@ class CoinCollector():
                         case "W":
                               return .100
                         case "":
-                              return 0
-      
-      
-      
+                              return 0   
 class BankUtility():
       def __init__ (self):
             pass
-      def promptUserForString(prompt):
-            # implement promptUserForString here
-            
-            return "" # be sure to change this
-      def promptUserForPositiveNumber(prompt):
-            
-            # implement promptUserForPositiveNumber here
-            
-            return 0.0 # be sure to change this
+      def promptUserForString(self, prompt):
+            # parameter received of type: STRING
+            # string prompt will print on the screen and ask the user to input information
+            # method will return the user's response as a string
+            user_response = prompt
+            return user_response
+      
+      def promptUserForPositiveNumber(self, prompt):
+            # parameter received of type: STRING
+            # prompts use to enter a positive number
+            # if the number is less than or equal to zero
+            # will print a message and loop again
+            # if number is positive, will return the number
+            user_response = eval(prompt)
+            if user_response <= 0:
+                  print("Amount cannot be negative. Try again")
+                  self.promptUserForPositiveNumber(prompt)
+            else:
+                  return user_response
+                  
       
       def generateRandomInteger(min, max):
-            # implement generateRandomInteger here
-            
-            return 0 # be sure to change as needed
+            # parameters received of type: INT
+            # takes in the min and max value and generates a random integer between these two numbers (both inclusive)
+            # returns the random integer 
+            ran_num = random.randint(min, max + 1)
+            return ran_num
       
       def convertFromDollarsToCents(amount):        
-            # implement convertFromDollarsToCents here     
-            
-            return 0 # be sure to change as needed
+            # parameter received of type: FLOAT  
+            # takes in a float and converts it to string
+            # will remove the dots in the string
+            # return the string as a number 
+            new_amount = str(amount).replace(".", "")
+            return int(new_amount)
       
       '''
             Checks if a given string is a number (long)
