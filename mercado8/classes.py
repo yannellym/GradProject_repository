@@ -27,12 +27,43 @@ class Account():
             self.account_num = account_number,
             self.owner_firstname = owner_fname,
             self.owner_lastname = owner_lname,
-            self.social = ssn,
-            self.pin_num = pin,
+            self._social = ssn,
+            self._pin_num = pin,
             self.balance = 0
             
+      # add methods as getters and setters for attributes      
+      @property
+      def getOwnerFirstName(self):
+            return self.owner_firstname
+      
+      @getOwnerFirstName.setter
+      def getOwnerFirstName(self, name):
+            self.owner_firstname = name
+      
+      @property
+      def getOwnerLastName(self):
+            return self.owner_lastname
+      
+      @getOwnerLastName.setter
+      def getOwnerLastName(self, name):
+            self.owner_lastname = name
+      
+      @property
+      def getOwnerSocial(self):
+            return self._social
+      
+      @getOwnerSocial.setter
+      def getOwnerSocial(self, digits):
+            self._social = digits
+      
+      @property
+      def getOwnerPin(self):
+            return self._social
+      
+      @getOwnerPin.setter
+      def getOwnerPin(self, digits):
+            self._social = digits
     
-      # add methods as getters and setters for attributes
        
       def deposit(self, amount): # 2 unit tests need to be implemented
             # adds the amount to the account balance and returns
@@ -160,14 +191,14 @@ class BankUtility():
                   return user_response
                   
       
-      def generateRandomInteger(min, max):
+      def generateRandomInteger(min, max): # needs 2 unit tests
             # parameters received of type: INT
             # takes in the min and max value and generates a random integer between these two numbers (both inclusive)
             # returns the random integer 
             ran_num = random.randint(min, max + 1)
             return ran_num
       
-      def convertFromDollarsToCents(amount):        
+      def convertFromDollarsToCents(amount):        # needs 2 unit tests
             # parameter received of type: FLOAT  
             # takes in a float and converts it to string
             # will remove the dots in the string
@@ -175,17 +206,7 @@ class BankUtility():
             new_amount = str(amount).replace(".", "")
             return int(new_amount)
       
-      '''
-            Checks if a given string is a number (long)
-            This does NOT handle decimals.
-            
-            YOU DO NOT NEED TO CHANGE THIS METHOD
-            THIS IS FREE FOR YOU TO USE AS NEEDED
-            
-            @param numberToCheck String to check
-            @return true if the String is a number, false otherwise
-      '''
-      def isNumeric(numberToCheck):
+      def isNumeric(numberToCheck): # needs 2 unit tests
             try:
                   if numberToCheck.isdigit():
                         return True
