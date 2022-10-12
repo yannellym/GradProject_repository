@@ -32,53 +32,86 @@ class Account():
     
       # add methods as getters and setters for attributes
        
-      def deposit(self, amount):
+      def deposit(self, amount): # 2 unit tests need to be implemented
             # adds the amount to the account balance and returns
             # the new account balance
             self.balance += amount
             return self.balance
       
-      def withdraw(self, amount):
+      def withdraw(self, amount): # 2 unit tests need to be implemented
             # subtracts the amount from the account balance and returns
             # the new account balance
             # if not enough funds available, returns a string 
             if self.balance > 0:
                   self.balance -= amount
                   return self.balance
-            else:
-                  return "not enough funds available"
+            return "not enough funds available"
       
-      def isValidPIN(pin):
-            
-            
-            # implement isValidPIN here
-            
-            return False  # be sure to change this
+      def isValidPIN(self, pin): # 2 unit tests need to be implemented
+            # if the pin entered matches the pin of the account
+            # return true, false otherwise
+            if self.pin_num == pin:
+                  return True
+            return False
       
-      
-      # all objects have a toString method - this indicates you are providing
-      # your own version
       def __repr__(self):
-            return "" # change this as needed
+            # returns a string of all of the information of the account class
+            return f'''
+                  Account(account_number = 
+                  {self.account_number}, owner_fname = {self.owner_fname},
+                  owner_lname = {self.owner_lname}, ssn = "XXX-XXX-" + {self.ssn}, 
+                  pin = {self.pin_num}, balance = {self.balance})
+                  '''
 
 class Bank():
-      def addAccountToBank(account):
+      def __init__ (self):
+            # stores all the accounts in the bank
+            # has a set number of accounts that it can support
+            self.allbank_accounts = []
+            self.numaccounts_supported = 10 
             
-        # implement addAccountToBank here
-        
-        return False; # be sure to change this as needed
-      def removeAccountFromBank(account):
-            # implement removeAccountFromBank here
-            
-            return False; # be sure to change this as needed
+      def addAccountToBank(self, account): # 2 unit tests need to be implemented
+            # parameter received of type: OBJECT
+            # adds the account to the allbank_accounts list only if:
+            # the list length is less than the number of accounts supported
+            # returns True if the account is added to the allbank_accounts list
+            # print a message if the account is not added and returns False
+            if len(self.allbank_accounts) < self.numaccounts_supported:
+                  self.allbank_accounts += account
+                  return True
+            print("No more accounts available")
+            return False
+
+      def removeAccountFromBank(self, account): # 2 unit tests need to be implemented
+            # parameter received of type: OBJECT
+            # looks trough the list of account in the bank list
+            # if there is an account in the list that matches the account given
+            # deletes such account from the bank list
+            for stored_account in self.allbank_accounts:
+                  if stored_account == account:
+                        self.allbank_accounts.remove(account)
       
-      def findAccount(accountNumber):
-            
-            return  # be sure to change this as needed
+      def findAccount(self, account_number): # 2 unit tests need to be implemented
+            # parameter received of type: INT
+            # looks trough the list of account in the bank list
+            # if there is an account in the list that matches the account number given
+            # returns the account object from the list
+            # if no account matches the account number, returns "no accoutn found"
+            for stored_account in self.allbank_accounts:
+                  if stored_account.account_num == account_number:
+                        return stored_account
+                  return "Account not found"
       
-      def addMonthlyInterest(percent):
-            pass
-        # EXTRA CREDIT
+      def addMonthlyInterest(self, percent): # 2 unit tests need to be implemented
+            # parameter received of type: FLOAT
+            # iterates through all the accounts in the list
+            # deposits a monthly interest payment into every account
+            # monthly interest is the current balance of the account nultiplied by the monthly interest rate
+            for stored_account in self.allbank_accounts:
+                  monthly_interest =  stored_account.balance * (percent / 12)
+                  stored_account.balance += monthly_interest
+            
+            
 
 
 class CoinCollector():
