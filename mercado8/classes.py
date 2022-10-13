@@ -1,6 +1,10 @@
 import random
+from art import logo
 
 class BankManager:
+      
+      
+      
       def __init__(self): 
             pass
        # This is where you will implement your  method and start 
@@ -18,34 +22,30 @@ class BankManager:
       #       # and then try to find a matching account with that accountnumber 
       #       # in the bank. 
       #       return # be sure to change this as needed 
-      
-      
-
+   
 
 class Account():
       def __init__ (self, account_number, owner_fname, owner_lname, ssn, pin):
-            self.account_num = account_number,
-            self.owner_firstname = owner_fname,
-            self.owner_lastname = owner_lname,
-            self._social = ssn,
-            self._pin_num = pin,
-            self.balance = 0
+            self.account_num = account_number
+            self.owner_firstname = owner_fname
+            self.owner_lastname = owner_lname
+            self._social = ssn
+            self._pin_num = pin
+            self.balance = 0.00
             
       # add methods as getters and setters for attributes      
-      @property
+
       def getOwnerFirstName(self):
             return self.owner_firstname
       
-      @getOwnerFirstName.setter
-      def getOwnerFirstName(self, name):
+      def setOwnerFirstName(self, name):
             self.owner_firstname = name
       
-      @property
       def getOwnerLastName(self):
             return self.owner_lastname
       
-      @getOwnerLastName.setter
-      def getOwnerLastName(self, name):
+
+      def setOwnerLastName(self, name):
             self.owner_lastname = name
       
       @property
@@ -53,16 +53,16 @@ class Account():
             return self._social
       
       @getOwnerSocial.setter
-      def getOwnerSocial(self, digits):
+      def setOwnerSocial(self, digits):
             self._social = digits
       
-      @property
+
       def getOwnerPin(self):
-            return self._social
+            return self._pin_num
       
-      @getOwnerPin.setter
-      def getOwnerPin(self, digits):
-            self._social = digits
+
+      def setOwnerPin(self, new_pin):
+            self._pin_num = new_pin
     
        
       def deposit(self, amount): # 2 unit tests need to be implemented
@@ -90,13 +90,15 @@ class Account():
       def __repr__(self):
             # returns a string of all of the information of the account class
             return f'''
-                  Account(account_number = 
-                  {self.account_number}, owner_fname = {self.owner_fname},
-                  owner_lname = {self.owner_lname}, ssn = "XXX-XXX-" + {self.ssn}, 
-                  pin = {self.pin_num}, balance = {self.balance})
+                  Account_number : {self.account_num}
+                  Owner First Name : {self.owner_firstname}
+                  Owner Last name : {self.owner_lastname}
+                  Owner SSN : XXX-XXX-{self._social[-4:]}
+                  pin = {self._pin_num}
+                  balance = ${self.balance}
                   '''
 
-class Bank():
+class Bank:
       def __init__ (self):
             # stores all the accounts in the bank
             # has a set number of accounts that it can support
@@ -143,7 +145,7 @@ class Bank():
             for stored_account in self.allbank_accounts:
                   monthly_interest =  stored_account.balance * (percent / 12)
                   stored_account.balance += monthly_interest
-class CoinCollector():
+class CoinCollector:
       # constructor so you cannot instantiate this class
       def __init__(self):
             pass
@@ -167,7 +169,7 @@ class CoinCollector():
                               return .100
                         case "":
                               return 0   
-class BankUtility():
+class BankUtility:
       def __init__ (self):
             pass
       def promptUserForString(self, prompt):
