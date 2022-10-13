@@ -34,9 +34,7 @@ mercado_bank = Bank()
 #executes the main functions for the program
 def main():
     # print(logo)
-
-    user_input = ask_choice()
-    menu_redirect(user_input)
+    menu_redirect()
     
         
     
@@ -59,13 +57,10 @@ def options():
             10. Add monthly interest to all accounts
             11. End Program
         ''')
-
-def ask_choice():
+   
+def menu_redirect():
     options()
     user_choice = int(input("Please input choice number: "))
-    return user_choice
-   
-def menu_redirect(user_choice):
     choices = [1,2,3,4,5,6,7,8,9,10]
     while user_choice:
         if user_choice == 11:
@@ -77,12 +72,11 @@ def menu_redirect(user_choice):
             match user_choice:
                 case 1:
                     print(openAccount())
-                    print("Account creation successful!")
-                    ask_choice()
+                    print("Account creation successful!") 
                 case 2:
-                    return .01
+                    getAccountInfoAndBalance()
                 case 3:
-                    return .01
+                    changePin()
                 case 4:
                     return .01
                 case 5:
@@ -97,7 +91,7 @@ def menu_redirect(user_choice):
                     return .01
                 case 10:
                     return .01
-        break
+        menu_redirect()
     
 def openAccount():
     user_fname = input("Enter Account owner's first name:\n")
@@ -118,6 +112,42 @@ def openAccount():
     # returns the account information for the user
     return new_account.__repr__()
 
+def getAccountInfoAndBalance():
+    account_number = int(input("Please enter your account number: \n"))
+    account_pin = int(input("Please enter your account pin: \n"))
+    
+    for account in mercado_bank.allbank_accounts:
+        if account.account_num == account_number:
+            if account._pin_num == account_pin:
+                print("Looking for account...")
+                print(account.__repr__())
+            else:
+                print("Invalid PIN number")
+        else:
+            print("Invalid account number")
+    
+def changePin():   
+    account_number = int(input("Please enter your account number: \n"))
+    account_pin = int(input("Please enter your account pin: \n"))
+    
+    for account in mercado_bank.allbank_accounts:
+        if account.account_num == account_number:
+            if account._pin_num == account_pin:
+                new_pin = input("Enter new PIN: \n")
+                confirmed_pin = input("Enter new PIN again to confirm: \n")
+                if new_pin == confirmed_pin:
+                    account._pin_num = new_pin
+                    print("PIN updated")
+                    print(account._pin_num)
+                else:
+                    print("Invalid PIN, Try again")
+                    menu_redirect()
+            else:
+                print("Invalid PIN number")
+        else:
+            print("Invalid account number")
+    
+    
 def randomNums(num):
     # loops num amount of times
     # each time, it will call the method generaterandominterger from the bank Utility class

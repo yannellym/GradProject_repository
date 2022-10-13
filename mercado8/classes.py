@@ -34,20 +34,18 @@ class Account():
             self.balance = 0.00
             
       # add methods as getters and setters for attributes      
-      @property
+
       def getOwnerFirstName(self):
             return self.owner_firstname
       
-      @getOwnerFirstName.setter
-      def getOwnerFirstName(self, name):
+      def setOwnerFirstName(self, name):
             self.owner_firstname = name
       
-      @property
       def getOwnerLastName(self):
             return self.owner_lastname
       
-      @getOwnerLastName.setter
-      def getOwnerLastName(self, name):
+
+      def setOwnerLastName(self, name):
             self.owner_lastname = name
       
       @property
@@ -55,16 +53,16 @@ class Account():
             return self._social
       
       @getOwnerSocial.setter
-      def getOwnerSocial(self, digits):
+      def setOwnerSocial(self, digits):
             self._social = digits
       
-      @property
+
       def getOwnerPin(self):
-            return self._social
+            return self._pin_num
       
-      @getOwnerPin.setter
-      def getOwnerPin(self, digits):
-            self._social = digits
+
+      def setOwnerPin(self, new_pin):
+            self._pin_num = new_pin
     
        
       def deposit(self, amount): # 2 unit tests need to be implemented
@@ -97,7 +95,7 @@ class Account():
                   Owner Last name : {self.owner_lastname}
                   Owner SSN : XXX-XXX-{self._social[-4:]}
                   pin = {self._pin_num}
-                  balance = {self.balance}
+                  balance = ${self.balance}
                   '''
 
 class Bank:
