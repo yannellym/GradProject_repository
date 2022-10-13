@@ -102,7 +102,11 @@ class Bank:
       def __init__ (self):
             # stores all the accounts in the bank
             # has a set number of accounts that it can support
-            self.allbank_accounts = []
+            self.allbank_accounts = [
+                  {'account_num': '123456789', 'owner_firstname': 'nelly', 
+                   'owner_lastname': 'merc', '_social': '1234', 
+                   '_pin_num':'69696', 'balance': '0.00'}
+                  ]
             self.numaccounts_supported = 10 
             
       def addAccountToBank(self, account): # 2 unit tests need to be implemented

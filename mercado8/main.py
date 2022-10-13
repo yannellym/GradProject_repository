@@ -109,6 +109,7 @@ def openAccount():
     new_account = Account(account_num,user_fname, user_lname, user_ssn, pin)
     # Adds this account number to the bank's account list
     mercado_bank.allbank_accounts.append(new_account)
+    print(mercado_bank.allbank_accounts)
     # returns the account information for the user
     return new_account.__repr__()
 
@@ -136,9 +137,10 @@ def changePin():
                 new_pin = input("Enter new PIN: \n")
                 confirmed_pin = input("Enter new PIN again to confirm: \n")
                 if new_pin == confirmed_pin:
-                    account._pin_num = new_pin
+                    account['_pin_num'] = new_pin
                     print("PIN updated")
                     print(account._pin_num)
+                    print(mercado_bank.allbank_accounts)
                 else:
                     print("Invalid PIN, Try again")
                     menu_redirect()
