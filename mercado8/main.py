@@ -1,5 +1,5 @@
 from art import logo
-from classes import Account, BankUtility, Bank
+from classes import Account, BankUtility, Bank, CoinCollector
 import math
 
 ''' Project 8: Final Project
@@ -63,9 +63,7 @@ def menu_redirect():
     user_choice = int(input("Please input choice number: "))
     choices = [1,2,3,4,5,6,7,8,9,10]
     while user_choice:
-        if user_choice == 11:
-            break
-        elif user_choice not in choices:
+        if user_choice not in choices:
             print("invalid choice, please try again.")
             options()
         else:
@@ -86,10 +84,14 @@ def menu_redirect():
                 case 7:
                     withdrawFromATM()
                 case 8:
-                    return .01
+                    depositChange()
                 case 9:
-                    return .01
+                    closeAccount()
                 case 10:
+                    addMonthlyInterest()
+                case 11:
+                    break
+                case 12:
                     print(mercado_bank.allbank_accounts)
         menu_redirect()
     
@@ -128,7 +130,7 @@ def getAccountInfoAndBalance():
             else:
                 print("Invalid PIN number")
         else:
-            print("Invalid account number")
+            print("Account not found for account number: %d" % account_number)
     
 def changePin():   
     account_number, account_pin = askAccountNumAndPin()
@@ -267,8 +269,75 @@ def withdrawFromATM():
                     print(f"Number of 5-dollar bills: {fives}")
                     account.withdraw(withdraw_amount)
                     print(f"New balance: ${account.balance}")
-    
-    
+
+def depositChange():
+    # set a list with the valid coin letters
+    # call the askAccountNumAndPin function to get the user's input
+    # search through the bank's list of accounts
+    # if the account number equals the account number given by the user
+    # if the account's pin number equals the pin number given by the user
+    # prompt the user to enter a string of the coins they want to deposit. Save it in coins variable
+    # set a variable called deposit amount to 0
+    # search through each letter in the coins variable
+    # if coin is NOT in our valid coins list, print a message with invalid coin and show the coin
+    # else, call the parseChange method and add it to the total of the deposit amount variable
+    # call the deposit method on the account and deposit the deposit amount
+    # if the above fails, print a message with either wrong account num or wrong PIN
+    # redirect to menu
+    valid_coins = ["P", "N", "D", "Q", "H", "W"]
+    account_number, account_pin = askAccountNumAndPin()
+    for account in mercado_bank.allbank_accounts:
+        if account.account_num == account_number:
+            if account.pin_num == account_pin:
+                coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n")
+                deposit_amt = 0
+                for coin in coins:
+                    if coin not in valid_coins:
+                        print(f"Invalid coin: {coin}")
+                    else:
+                        deposit_amt += CoinCollector.parseChange(coin)
+                account.deposit(deposit_amt)
+                print(f"New balance: ${account.balance}")
+            else:
+                print("Wrong account PIN. Try again.")
+        else:
+            print("Wrong account number. Try again.")
+    menu_redirect()
+
+def closeAccount():
+    # set a list with the valid coin letters
+    # call the askAccountNumAndPin function to get the user's input
+    # search through the bank's list of accounts
+    # if the account number equals the account number given by the user
+    # if the account's pin number equals the pin number given by the user
+    account_number, account_pin = askAccountNumAndPin()
+    for account in mercado_bank.allbank_accounts:
+        if account.account_num == account_number:
+            if account.pin_num == account_pin:
+                mercado_bank.allbank_accounts.remove(account)
+                print(f'Account {account.account_number} has been closed')
+                print(f'Account {account.account_num} has been closed')
+            else:
+                print("Wrong account PIN. Try again.")
+        else:
+            print("Wrong account number. Try again.")
+    menu_redirect()
+
+def addMonthlyInterest():
+    # look through all of the account in the bank's account list
+    # calculate the monthly rate by multiplying the account balance times the annual rate
+    # then, divide that by twelve
+    # then, turn that into an integer (two digits) and divide it by 100 to give you a value
+    # save the above value into a variable named monthly rate
+    # add this amount to the account's balance
+    # display the account balance as a string
+    annual_rate = int(input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n"))
+    for account in mercado_bank.allbank_accounts:
+        monthly_rate = int(((annual_rate  * account.balance) / 12)) / 100
+        account.balance += monthly_rate
+        print(f"Deposited interest: {monthly_rate} into account number: {account.account_num}, new balance: ${account.balance}")
+                        
+                
 def askAccountNumAndPin():
     # this is a helper function that will ask for the account number and pin
     # it will return both values which will be saved in separate variables

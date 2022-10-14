@@ -150,7 +150,7 @@ class CoinCollector:
       def __init__(self):
             pass
       
-      def parseChange(coins, change): # needs 3 unit tests
+      def parseChange(self, change): # needs 3 unit tests
             # will look through each character in the string
             # if the character matches any of the letter below, it will return the value
             for char in change:
@@ -166,9 +166,7 @@ class CoinCollector:
                         case "H":
                               return .50
                         case "W":
-                              return .100
-                        case "":
-                              return 0   
+                              return 1 
 class BankUtility:
       def __init__ (self):
             pass
