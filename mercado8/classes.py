@@ -30,7 +30,7 @@ class Account():
             self.owner_firstname = owner_fname
             self.owner_lastname = owner_lname
             self._social = ssn
-            self._pin_num = pin
+            self.pin_num = pin
             self.balance = 0.00
             
       # add methods as getters and setters for attributes      
@@ -58,11 +58,11 @@ class Account():
       
 
       def getOwnerPin(self):
-            return self._pin_num
+            return self.pin_num
       
 
       def setOwnerPin(self, new_pin):
-            self._pin_num = new_pin
+            self.pin_num = new_pin
     
        
       def deposit(self, amount): # 2 unit tests need to be implemented
@@ -94,7 +94,7 @@ class Account():
                   Owner First Name : {self.owner_firstname}
                   Owner Last name : {self.owner_lastname}
                   Owner SSN : XXX-XXX-{self._social[-4:]}
-                  pin = {self._pin_num}
+                  pin = {self.pin_num}
                   balance = ${self.balance}
                   '''
 
@@ -102,11 +102,7 @@ class Bank:
       def __init__ (self):
             # stores all the accounts in the bank
             # has a set number of accounts that it can support
-            self.allbank_accounts = [
-                  {'account_num': '123456789', 'owner_firstname': 'nelly', 
-                   'owner_lastname': 'merc', '_social': '1234', 
-                   '_pin_num':'69696', 'balance': '0.00'}
-                  ]
+            self.allbank_accounts = []
             self.numaccounts_supported = 10 
             
       def addAccountToBank(self, account): # 2 unit tests need to be implemented
