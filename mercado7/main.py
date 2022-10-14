@@ -32,8 +32,8 @@ Does your program follow the coding guidelines and is it commented appropriately
 #executes the main function for the program
 def main():
     # generates a large array of random numbers in range 0 - 100.
-    rand_num = [random.randrange(0, 100, 1) for i in range(150)]
-    print("Large random list of random numbers", rand_num)
+    rand_num = [random.randrange(0, 100, 1) for i in range(5000)]
+    #print("Large random list of random numbers", rand_num)
     
     # Gets the current time
     start_time_one = datetime.now()
@@ -63,26 +63,9 @@ def main():
     else:
         print("merge sort executed faster")
 
-    
-# function for bubble sort
-def bubble_sort(numbers):
-    # the length of numbers - 1
-    for i in range(len(numbers)-1,0,-1):
-        # j will go through each number in rang of i
-        for j in range(i):
-            # if nums j is greater than nums j + 1
-            if numbers[j]>numbers[j+1]:
-                # store the numbers j in a temp variable
-               temp = numbers[j]
-               # make numbers j equal numbers j plus 1
-               numbers[j] = numbers[j+1]
-               # numbers j plus one now equals the temp
-               numbers[j+1] = temp
-    # return the numbers, sorted at the end
-    return numbers
-
 # function for merge sort
-def merge_sort(unsorted):
+def merge_sort(rand_num):
+    unsorted = rand_num.copy()
     # if the length of the unsorted array is 1, return the unsorted array
     if len(unsorted) <= 1:
         return unsorted
@@ -124,6 +107,24 @@ def merge(l_half,r_half):
         # else add the left half to result
        s = s + l_half
     return s
+
+# function for bubble sort
+def bubble_sort(rand_num):
+    numbers = rand_num.copy()
+    # the length of numbers - 1
+    for i in range(len(numbers)-1,0,-1):
+        # j will go through each number in rang of i
+        for j in range(i):
+            # if nums j is greater than nums j + 1
+            if numbers[j]>numbers[j+1]:
+                # store the numbers j in a temp variable
+               temp = numbers[j]
+               # make numbers j equal numbers j plus 1
+               numbers[j] = numbers[j+1]
+               # numbers j plus one now equals the temp
+               numbers[j+1] = temp
+    # return the numbers, sorted at the end
+    return numbers
 
 # calls the function main   
 main()
