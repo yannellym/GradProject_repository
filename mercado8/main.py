@@ -1,6 +1,6 @@
 from art import logo
 from classes import Account, BankUtility, Bank
-import random
+import math
 
 ''' Project 8: Final Project
 In this project you will tie together many of the concepts that you have learned throughout the 
@@ -82,9 +82,9 @@ def menu_redirect():
                 case 5:
                     transferBetweenAccounts()
                 case 6:
-                    return .01
+                    withdrawFromAccount()
                 case 7:
-                    return .01
+                    withdrawFromATM()
                 case 8:
                     return .01
                 case 9:
@@ -157,7 +157,7 @@ def changePin():
         else:
             print("Invalid account number")
 
-def depositMoneyToAccount():
+def depositMoneyToAccount(): # REFACTOR
     account_number, account_pin = askAccountNumAndPin()
     # search through the bank's list of accounts
     # if the account number equals the account number given by the user
@@ -175,7 +175,7 @@ def depositMoneyToAccount():
                     print("Amount cannot be negative. Try again.")
                 else:
                     account.deposit(deposit_amount)
-                    print(account.__repr__())
+                    print(f"New balance: ${account.balance}")
         menu_redirect()
 
 def transferBetweenAccounts():
@@ -199,14 +199,15 @@ def transferBetweenAccounts():
                 for t_account in mercado_bank.allbank_accounts:
                     if t_account.account_num == t_account_number:
                         if t_account.pin_num == t_account_pin:
-                            deposit_amount = float(input("Please enter an amount to deposit: \n"))
+                            deposit_amount = float(input("Please enter an amount to deposit in dollars and cents (Ex, 5.99): \n"))
                             if deposit_amount <= 0:
                                 print("Amount cannot be negative. Try again.")
                             else:
                                 account.withdraw(deposit_amount)
                                 t_account.deposit(deposit_amount)
-                                print("** Transfer Successfull! **")
-                                print(account.__repr__())
+                                print("** Transfer Complete **")
+                                print(f"New balance in account:{account.account_num} is: ${account.balance}")
+                                print(f"New balance in account:{t_account.account_num} is: ${t_account.balance}")
                         else:
                             print("Wrong transfer account PIN. Try again.")
                     else:
@@ -214,8 +215,59 @@ def transferBetweenAccounts():
             else:
                 print("Wrong account PIN. Try again.")
         else:
-            print("Wrong transfer account number. Try again.")
+            print("Wrong account number. Try again.")
         menu_redirect()
+
+def withdrawFromAccount(): # REFACTOR
+    # search through the bank's list of accounts
+    # if the account number equals the account number given by the user
+    # if the account's pin number equals the pin number given by the user
+    account_number, account_pin = askAccountNumAndPin()
+    for account in mercado_bank.allbank_accounts:
+        if account.account_num == account_number:
+            if account.pin_num == account_pin:
+                withdraw_amount = float(input("Please enter an amount to withdraw in dollars and cents (Ex, 5.99): \n"))
+                if withdraw_amount <= 0:
+                    print("Amount cannot be negative. Try again.")
+                else:
+                    account.withdraw(withdraw_amount)
+                    print(f"New balance: ${account.balance}")
+    menu_redirect()
+
+def withdrawFromATM():
+    # search through the bank's list of accounts
+    # if the account number equals the account number given by the user
+    # if the account's pin number equals the pin number given by the user
+    # ask the user to input the amount they want to withdraw in multiples of 5. Save it in a variable
+    # if the withdraw amount is less than 5 or greater than 1000 or is not a multiple of 5
+    # print, invalid amount try again
+    # else, divide the withdraw amount by 20 and round it down. Save this in a variable called twentys
+    # create a new amount variable that is the original withdraw amount - the result of twentys variable times 20
+    # divide the new_amount variable by 10 and round it down. Save this in a variable called tens
+    # update the new_amount variable to equal the new_amount variable - the result of tens variable times 10
+    # divide the new_amount variable by 5 and round it down. Save this in a variable called fives
+    # print how many 20s, 20s, and 5s the user gave you by using the above variables
+    # call the account withdraw method
+    # print the new account balance
+    account_number, account_pin = askAccountNumAndPin()
+    for account in mercado_bank.allbank_accounts:
+        if account.account_num == account_number:
+            if account.pin_num == account_pin:
+                withdraw_amount = int(input("Enter amount to withdraw in dollars (no cents) in multiples of $5 (limit $1,000): \n"))
+                if withdraw_amount < 5 or withdraw_amount > 1000 or withdraw_amount %5 != 0:
+                    print("Invalid amount. Try again.")
+                else:
+                    twentys = math.floor(withdraw_amount / 20)
+                    new_amount = withdraw_amount - (twentys * 20)
+                    tens = math.floor(new_amount / 10)
+                    new_amount -= (tens * 10)
+                    fives = math.floor(new_amount / 5)
+                    print(f"Number of 20-dollar bills: {twentys}")
+                    print(f"Number of 10-dollar bills: {tens}")
+                    print(f"Number of 5-dollar bills: {fives}")
+                    account.withdraw(withdraw_amount)
+                    print(f"New balance: ${account.balance}")
+    
     
 def askAccountNumAndPin():
     # this is a helper function that will ask for the account number and pin
