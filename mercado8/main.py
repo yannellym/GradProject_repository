@@ -177,10 +177,42 @@ def depositMoneyToAccount():
                 if deposit_amount <= 0:
                     print("Amount cannot be negative. Try again.")
                 else:
-                    account.deposit(deposit_amount)
+                    account.withdraw(deposit_amount)
                     print(account.__repr__())
         menu_redirect()
-    
+
+def transferBetweenAccounts():
+    print("Account to transfer from:")
+    account_number = int(input("Please enter your account number: \n"))
+    account_pin = int(input("Please enter your account pin: \n"))
+    print("Account to transfer to:")
+    transfer_account_number = int(input("Please enter the account number: \n"))
+    transfer_account_pin = int(input("Please enter the account pin: \n"))
+    # search through the bank's list of accounts
+    # if the account number equals the account number given by the user
+    # if the account's pin number equals the pin number given by the user
+    # ask the user to input a deposit amount. Save it as a float in a avariable
+    # if the deposit amount is < or equal to zero, print a message for user to try again
+    # else, call the deposit amount, and deposit the money in the account
+    # print the account's information
+    # if any account information doesn't match, redirect user to menu again
+    for account in mercado_bank.allbank_accounts:
+        if account.account_num == account_number:
+            if account.pin_num == account_pin:
+                for t_account in mercado_bank.allbank_accounts:
+                    if t_account.transfer_account_number == transfer_account_number:
+                        if t_account.pin_number == t_account.transfer_account_pin:
+                            deposit_amount = float(input("Please enter an amount to deposit: \n"))
+                            if deposit_amount <= 0:
+                                print("Amount cannot be negative. Try again.")
+                            else:
+                                account.withdraw(deposit_amount)
+                                t_account.deposit(deposit_amount)
+                                print(account.__repr__())
+                        else:
+                            pass
+    menu_redirect()
+        
 def randomNums(num):
     # loops num amount of times
     # each time, it will call the method generaterandominterger from the bank Utility class
