@@ -150,23 +150,33 @@ class CoinCollector:
       def __init__(self):
             pass
       
-      def parseChange(self, change): # needs 3 unit tests
-            # will look through each character in the string
-            # if the character matches any of the letter below, it will return the value
-            for char in change:
-                  match char:
+      def parseChange(self, coins): # needs 3 unit tests
+            # saves the coins parameter into a variable called coin_list that includes all letters in the string
+            # Ex, ["P", "D", "H", "Q"]
+            # sets the deposit amount to zero
+            # looks through each coin in the coin list and matches it with the value. Adds this value to the deposit amount
+            # if coin is not a match to any value, print the message invalid coin and show the coin
+            # returns the deposit amount
+            coin_list = [*coins]
+            print(coin_list)
+            deposit_amt = 0
+            for coin in coin_list:
+                  match coin:
                         case "P":
-                              return .01
+                              deposit_amt +=  .01
                         case "N":
-                              return .05
+                              deposit_amt +=  .05
                         case "D":
-                              return .10
+                              deposit_amt +=  .10
                         case "Q":
-                              return .25
+                              deposit_amt +=  .25
                         case "H":
-                              return .50
+                              deposit_amt +=  .50
                         case "W":
-                              return 1 
+                              deposit_amt +=  1
+                        case default:
+                              print(f"Invalid coin: {coin}")
+            return deposit_amt
 class BankUtility:
       def __init__ (self):
             pass

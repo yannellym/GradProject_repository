@@ -31,6 +31,7 @@ What do you want to do?
     Python Version: 2.7.18
 '''
 mercado_bank = Bank()
+collector = CoinCollector()
 #executes the main functions for the program
 def main():
     # print(logo)
@@ -91,8 +92,6 @@ def menu_redirect():
                     addMonthlyInterest()
                 case 11:
                     break
-                case 12:
-                    print(mercado_bank.allbank_accounts)
         menu_redirect()
     
 def openAccount():
@@ -129,8 +128,8 @@ def getAccountInfoAndBalance():
                 print(account.__repr__())
             else:
                 print("Invalid PIN number")
-        else:
-            print("Account not found for account number: %d" % account_number)
+    
+    print("Account not found for account number: %d" % account_number)
     
 def changePin():   
     account_number, account_pin = askAccountNumAndPin()
@@ -289,14 +288,12 @@ def depositChange():
     for account in mercado_bank.allbank_accounts:
         if account.account_num == account_number:
             if account.pin_num == account_pin:
-                coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n")
-                deposit_amt = 0
-                for coin in coins:
-                    if coin not in valid_coins:
-                        print(f"Invalid coin: {coin}")
-                    else:
-                        deposit_amt += CoinCollector.parseChange(coin)
+                coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n").upper()
+                
+                deposit_amt = collector.parseChange(coins)
                 account.deposit(deposit_amt)
+                print("deposit amt:" ,deposit_amt)
+                print("account balance:", account.balance)
                 print(f"New balance: ${account.balance}")
             else:
                 print("Wrong account PIN. Try again.")
@@ -315,7 +312,6 @@ def closeAccount():
         if account.account_num == account_number:
             if account.pin_num == account_pin:
                 mercado_bank.allbank_accounts.remove(account)
-                print(f'Account {account.account_number} has been closed')
                 print(f'Account {account.account_num} has been closed')
             else:
                 print("Wrong account PIN. Try again.")
