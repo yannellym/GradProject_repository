@@ -1,5 +1,4 @@
 import random
-from art import logo
 
 class BankManager:
       
@@ -33,7 +32,8 @@ class Account():
             self.pin_num = pin
             self.balance = 0.00
             
-      # add methods as getters and setters for attributes      
+      # add methods as getters and setters for attributes  
+      # ONLY THROUGH FUNCTIONS ACCESS    
 
       def getOwnerFirstName(self):
             return self.owner_firstname

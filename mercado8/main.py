@@ -26,7 +26,7 @@ What do you want to do?
 '''
     File name: project_08.py
     Author: Yannelly Mercado
-    Date created: 10/07/2022
+    Date created: 10/13/2022
     Date last modified: 10/07/2022
     Python Version: 2.7.18
 '''
@@ -78,7 +78,7 @@ def menu_redirect():
                 case 3:
                     changePin()
                 case 4:
-                    return .01
+                    depositMoneyToAccount()
                 case 5:
                     return .01
                 case 6:
@@ -159,8 +159,27 @@ def changePin():
         else:
             print("Invalid account number")
 
-def depositMoneyToAccount(money):
-       
+def depositMoneyToAccount():
+    account_number = int(input("Please enter your account number: \n"))
+    account_pin = int(input("Please enter your account pin: \n"))
+    # search through the bank's list of accounts
+    # if the account number equals the account number given by the user
+    # if the account's pin number equals the pin number given by the user
+    # ask the user to input a deposit amount. Save it as a float in a avariable
+    # if the deposit amount is < or equal to zero, print a message for user to try again
+    # else, call the deposit amount, and deposit the money in the account
+    # print the account's information
+    # if any account information doesn't match, redirect user to menu again
+    for account in mercado_bank.allbank_accounts:
+        if account.account_num == account_number:
+            if account.pin_num == account_pin:
+                deposit_amount = float(input("Please enter an amount to deposit: \n"))
+                if deposit_amount <= 0:
+                    print("Amount cannot be negative. Try again.")
+                else:
+                    account.deposit(deposit_amount)
+                    print(account.__repr__())
+        menu_redirect()
     
 def randomNums(num):
     # loops num amount of times
