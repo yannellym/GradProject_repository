@@ -90,7 +90,7 @@ def menu_redirect():
                 case 9:
                     return .01
                 case 10:
-                    return .01
+                    print(mercado_bank.allbank_accounts)
         menu_redirect()
     
 def openAccount():
@@ -109,16 +109,21 @@ def openAccount():
     new_account = Account(account_num,user_fname, user_lname, user_ssn, pin)
     # Adds this account number to the bank's account list
     mercado_bank.allbank_accounts.append(new_account)
+    # print(mercado_bank.allbank_accounts)
     # returns the account information for the user
     return new_account.__repr__()
 
 def getAccountInfoAndBalance():
     account_number = int(input("Please enter your account number: \n"))
     account_pin = int(input("Please enter your account pin: \n"))
-    
+    # search through the bank's list of accounts
+    # if the account number equals the account number given by the user
+    # if the account's pin number equals the pin number given by the user
+    # return the account's information
+    # else, print "invalid account number" or "invalid pin number"
     for account in mercado_bank.allbank_accounts:
         if account.account_num == account_number:
-            if account._pin_num == account_pin:
+            if account.pin_num == account_pin:
                 print("Looking for account...")
                 print(account.__repr__())
             else:
@@ -129,16 +134,23 @@ def getAccountInfoAndBalance():
 def changePin():   
     account_number = int(input("Please enter your account number: \n"))
     account_pin = int(input("Please enter your account pin: \n"))
-    
+    # search through the bank's list of accounts
+    # if the account number equals the account number given by the user
+    # if the account's pin number equals the pin number given by the user
+    # ask the user to input a new pin number and confirm that number again
+    # if the confirmed pin equals the new pin given by the user:
+    # change the account's pin number to the new pin number
+    # else, print that it is an invalid pin number or an invalid account number
     for account in mercado_bank.allbank_accounts:
         if account.account_num == account_number:
-            if account._pin_num == account_pin:
+            if account.pin_num == account_pin:
                 new_pin = input("Enter new PIN: \n")
                 confirmed_pin = input("Enter new PIN again to confirm: \n")
                 if new_pin == confirmed_pin:
-                    account._pin_num = new_pin
+                    account.pin_num = int(new_pin)
                     print("PIN updated")
-                    print(account._pin_num)
+                    # print(account.pin_num)
+                    # print(mercado_bank.allbank_accounts)
                 else:
                     print("Invalid PIN, Try again")
                     menu_redirect()
@@ -146,7 +158,9 @@ def changePin():
                 print("Invalid PIN number")
         else:
             print("Invalid account number")
-    
+
+def depositMoneyToAccount(money):
+       
     
 def randomNums(num):
     # loops num amount of times
