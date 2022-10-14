@@ -80,7 +80,7 @@ def menu_redirect():
                 case 4:
                     depositMoneyToAccount()
                 case 5:
-                    return .01
+                    transferBetweenAccounts()
                 case 6:
                     return .01
                 case 7:
@@ -114,8 +114,7 @@ def openAccount():
     return new_account.__repr__()
 
 def getAccountInfoAndBalance():
-    account_number = int(input("Please enter your account number: \n"))
-    account_pin = int(input("Please enter your account pin: \n"))
+    account_number, account_pin = askAccountNumAndPin()
     # search through the bank's list of accounts
     # if the account number equals the account number given by the user
     # if the account's pin number equals the pin number given by the user
@@ -132,8 +131,7 @@ def getAccountInfoAndBalance():
             print("Invalid account number")
     
 def changePin():   
-    account_number = int(input("Please enter your account number: \n"))
-    account_pin = int(input("Please enter your account pin: \n"))
+    account_number, account_pin = askAccountNumAndPin()
     # search through the bank's list of accounts
     # if the account number equals the account number given by the user
     # if the account's pin number equals the pin number given by the user
@@ -160,8 +158,7 @@ def changePin():
             print("Invalid account number")
 
 def depositMoneyToAccount():
-    account_number = int(input("Please enter your account number: \n"))
-    account_pin = int(input("Please enter your account pin: \n"))
+    account_number, account_pin = askAccountNumAndPin()
     # search through the bank's list of accounts
     # if the account number equals the account number given by the user
     # if the account's pin number equals the pin number given by the user
@@ -177,41 +174,55 @@ def depositMoneyToAccount():
                 if deposit_amount <= 0:
                     print("Amount cannot be negative. Try again.")
                 else:
-                    account.withdraw(deposit_amount)
+                    account.deposit(deposit_amount)
                     print(account.__repr__())
         menu_redirect()
 
 def transferBetweenAccounts():
     print("Account to transfer from:")
-    account_number = int(input("Please enter your account number: \n"))
-    account_pin = int(input("Please enter your account pin: \n"))
-    print("Account to transfer to:")
-    transfer_account_number = int(input("Please enter the account number: \n"))
-    transfer_account_pin = int(input("Please enter the account pin: \n"))
+    account_number, account_pin = askAccountNumAndPin()
     # search through the bank's list of accounts
     # if the account number equals the account number given by the user
     # if the account's pin number equals the pin number given by the user
+    # ask the user for the transfer account number and PIN number
     # ask the user to input a deposit amount. Save it as a float in a avariable
     # if the deposit amount is < or equal to zero, print a message for user to try again
     # else, call the deposit amount, and deposit the money in the account
     # print the account's information
-    # if any account information doesn't match, redirect user to menu again
+    # if any account information doesn't match, Print an error message
+    # redirect user to menu again if everything else fails
     for account in mercado_bank.allbank_accounts:
         if account.account_num == account_number:
             if account.pin_num == account_pin:
+                print("**Account to transfer to**:")
+                t_account_number, t_account_pin = askAccountNumAndPin()
                 for t_account in mercado_bank.allbank_accounts:
-                    if t_account.transfer_account_number == transfer_account_number:
-                        if t_account.pin_number == t_account.transfer_account_pin:
+                    if t_account.account_num == t_account_number:
+                        if t_account.pin_num == t_account_pin:
                             deposit_amount = float(input("Please enter an amount to deposit: \n"))
                             if deposit_amount <= 0:
                                 print("Amount cannot be negative. Try again.")
                             else:
                                 account.withdraw(deposit_amount)
                                 t_account.deposit(deposit_amount)
+                                print("** Transfer Successfull! **")
                                 print(account.__repr__())
                         else:
-                            pass
-    menu_redirect()
+                            print("Wrong transfer account PIN. Try again.")
+                    else:
+                        print("Wrong transfer account number. Try again.")
+            else:
+                print("Wrong account PIN. Try again.")
+        else:
+            print("Wrong transfer account number. Try again.")
+        menu_redirect()
+    
+def askAccountNumAndPin():
+    # this is a helper function that will ask for the account number and pin
+    # it will return both values which will be saved in separate variables
+    account_number = int(input("Please enter the account number: \n"))
+    account_pin = int(input("Please enter the account pin: \n"))
+    return account_number, account_pin
         
 def randomNums(num):
     # loops num amount of times
