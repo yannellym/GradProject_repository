@@ -33,7 +33,7 @@ What do you want to do?
 def main():
     # print(logo)
     program = BankManager()
-    program.run_main()
+    program.initialize()
     
         
 # calls the function main   
