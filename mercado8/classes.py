@@ -171,11 +171,11 @@ class CoinCollector:
 class BankUtility:
       def __init__ (self):
             pass
-      def promptUserForString(self, prompt):
+      def promptUserForString(self, name):
             # parameter received of type: STRING
             # string prompt will print on the screen and ask the user to input information
             # method will return the user's response as a string
-            user_response = prompt
+            user_response =input(f"Enter Account owner's {name}:\n")
             return user_response
       
       def promptUserForPositiveNumber(self, prompt):
@@ -271,9 +271,9 @@ class BankUtility:
                   
       
       def openAccount(self):
-            user_fname = input("Enter Account owner's first name:\n")
-            user_lname = input("Enter Account owner's last name: \n")
-            user_ssn = input("Enter Account owner's SSN (9 DIGITS): \n")
+            user_fname = self.promptUserForString("first name")
+            user_lname = self.promptUserForString("last name")
+            user_ssn = self.promptUserForString("SSN (9 Digits)")
             # calls the randomNums function to generate 9 random numbers
             account_num = self.randomNums(9)
             # if the account number is already in the bank's account list
@@ -298,15 +298,10 @@ class BankUtility:
             # if the account's pin number equals the pin number given by the user
             # return the account's information
             # else, print "invalid account number" or "invalid pin number"
-            for account in self.mercado_bank.allbank_accounts:
-                  if account.account_num == account_number:
-                        if account.getOwnerPin == account_pin:
-                              print("Looking for account...")
-                              return account.__repr__()
-                        else:
-                              print("Invalid PIN number")
-            
-            print("Account not found for account number: %d" % account_number)
+            user_account = self.userIsConfirmed(account_number, account_pin)
+            if user_account:
+                  print("Looking for account...")
+                  return user_account.__repr__()
       
       def changePin(self):   
             account_number, account_pin = self.askAccountNumAndPin()
@@ -523,7 +518,7 @@ class BankUtility:
             return account_number, account_pin
             
       def randomNums(self,num):
-      # loops num amount of times
+          # loops num amount of times
       # each time, it will call the method generaterandominterger from the bank Utility class
       # it will pass in two numbers, 0 and num
       # it will append the number to a res array
@@ -532,6 +527,18 @@ class BankUtility:
             for i in range(num):
                   res.append(BankUtility.generateRandomInteger(0,num))
             return int("".join(map(str, res)))
+      
+      def userIsConfirmed(self, account_number, account_pin):
+            for account in self.mercado_bank.allbank_accounts:
+                  if account.account_num == account_number:
+                        if account.getOwnerPin == account_pin:
+                              return account
+                        else:
+                              print("Invalid PIN number")
+                  else:
+                        print("Account not found for account number: %d" % account_number)    
+            return False
+            
       
 class BankManager(Bank, Account, CoinCollector, BankUtility): 
       mercado_bank = Bank() # ? is it needed?
