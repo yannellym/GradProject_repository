@@ -1,5 +1,6 @@
-import random
-import math
+import random, math
+from art import logo
+
 class Bank:
       def __init__ (self):
             # stores all the accounts in the bank
@@ -180,7 +181,8 @@ class BankManager(Bank, Account, CoinCollector):
       #       # in the bank. 
       #       return # be sure to change this as needed 
       def run_main(self):
-           self.menu_redirect()
+            print(logo)
+            self.menu_redirect()
      # Helper functions for main
       def options(self):
       # Displays the options to the user
@@ -203,11 +205,14 @@ class BankManager(Bank, Account, CoinCollector):
       def menu_redirect(self):
             self.options()
             user_choice = int(input("Please input choice number: "))
-            choices = [1,2,3,4,5,6,7,8,9,10]
-            while user_choice:
-                  if user_choice not in choices:
-                        print("invalid choice, please try again.")
-                        self.options()
+            choices = [1,2,3,4,5,6,7,8,9,10,11]
+            
+            if user_choice not in choices:
+                  print("invalid choice, please try again.")
+                  self.options()  
+            else:
+                  if user_choice == 11:
+                        print("*** Thank you for using MercadoBank. Have a nice day! ***")
                   else:
                         match user_choice:
                               case 1:
@@ -231,9 +236,8 @@ class BankManager(Bank, Account, CoinCollector):
                                     self.closeAccount()
                               case 10:
                                     self.addMonthlyInterest()
-                              case 11:
-                                    break
                         self.menu_redirect()
+                  
       
       def openAccount(self):
             user_fname = input("Enter Account owner's first name:\n")
@@ -373,10 +377,12 @@ class BankManager(Bank, Account, CoinCollector):
                               withdraw_amount = float(input("Please enter an amount to withdraw in dollars and cents (Ex, 5.99): \n"))
                               if withdraw_amount <= 0:
                                     print("Amount cannot be negative. Try again.")
+                              elif account.balance < withdraw_amount:
+                                    print("Not enough funds to withdraw. Try again.")
                               else:
                                     account.withdraw(withdraw_amount)
                                     print(f"New balance: ${account.balance}")
-                  self.menu_redirect()
+            self.menu_redirect()
 
       def withdrawFromATM(self):
             # search through the bank's list of accounts
@@ -400,6 +406,8 @@ class BankManager(Bank, Account, CoinCollector):
                               self.withdraw_amount = int(input("Enter amount to withdraw in dollars (no cents) in multiples of $5 (limit $1,000): \n"))
                         if self.withdraw_amount < 5 or self.withdraw_amount > 1000 or self.withdraw_amount %5 != 0:
                               print("Invalid amount. Try again.")
+                        elif account.balance < self.withdraw_amount:
+                              print("Not enough funds. Try again.")
                         else:
                               twentys = math.floor(self.withdraw_amount / 20)
                               new_amount = self.withdraw_amount - (twentys * 20)

@@ -1,6 +1,4 @@
-from art import logo
-from classes import Account, BankUtility, Bank, CoinCollector, BankManager
-import math
+from classes import BankManager
 
 ''' Project 8: Final Project
 In this project you will tie together many of the concepts that you have learned throughout the 
@@ -26,8 +24,8 @@ What do you want to do?
 '''
     File name: project_08.py
     Author: Yannelly Mercado
-    Date created: 10/13/2022
-    Date last modified: 10/07/2022
+    Date created: 10/10/2022
+    Date last modified: 10/15/2022
     Python Version: 2.7.18
 '''
 
