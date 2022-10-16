@@ -105,16 +105,16 @@ class Account:
       def deposit(self, amount): # 2 unit tests need to be implemented
             # adds the amount to the account balance and returns
             # the new account balance
-            self.setOwnerBalance(amount)
+            self.setOwnerBalance = amount
             return self.getOwnerBalance
       
       def withdraw(self, amount): # 2 unit tests need to be implemented
             # subtracts the amount from the account balance and returns
             # the new account balance
             # if not enough funds available, returns a string 
-            if self.getOwnerBalance() > 0:
+            if self.getOwnerBalance > 0:
                   new_balance = self.getOwnerBalance - amount
-                  self.setOwnerBalance(new_balance)
+                  self.setOwnerBalance = new_balance
                   return self.getOwnerBalance
             return "not enough funds available"
       
@@ -320,10 +320,10 @@ class BankUtility:
             for account in self.mercado_bank.allbank_accounts:
                   if account.account_num == account_number:
                         if account.getOwnerPin == account_pin:
-                              new_pin = input("Enter new PIN: \n")
-                              confirmed_pin = input("Enter new PIN again to confirm: \n")
+                              new_pin = int(input("Enter new PIN: \n"))
+                              confirmed_pin = int(input("Enter new PIN again to confirm: \n"))
                               if new_pin == confirmed_pin:
-                                    account.setOwnerPin(int(new_pin))
+                                    account.setOwnerPin = confirmed_pin
                                     print("PIN updated")
                                     # print(account.pin_num)
                                     # print(mercado_bank.allbank_accounts)
@@ -409,7 +409,7 @@ class BankUtility:
                               withdraw_amount = float(input("Please enter an amount to withdraw in dollars and cents (Ex, 5.99): \n"))
                               if withdraw_amount <= 0:
                                     print("Amount cannot be negative. Try again.")
-                              elif account.getOwnerbalance < withdraw_amount:
+                              elif account.getOwnerBalance < withdraw_amount:
                                     print("Not enough funds to withdraw. Try again.")
                               else:
                                     account.withdraw(withdraw_amount)
@@ -534,9 +534,8 @@ class BankUtility:
             return int("".join(map(str, res)))
       
 class BankManager(Bank, Account, CoinCollector, BankUtility): 
-      mercado_bank = Bank()
-      collector = CoinCollector()
-      helper = BankUtility()
+      mercado_bank = Bank() # ? is it needed?
+      collector = CoinCollector() # ? is it needed?
       
       def __init__(self): 
             super().__init__()
