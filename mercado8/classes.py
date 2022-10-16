@@ -61,17 +61,19 @@ class Account:
             
       # add methods as getters and setters for attributes  
       # ONLY THROUGH FUNCTIONS ACCESS    
-
+      @property
       def getOwnerFirstName(self):
             return self.owner_firstname
       
+      @getOwnerFirstName.setter
       def setOwnerFirstName(self, name):
             self.owner_firstname = name
       
+      @property
       def getOwnerLastName(self):
             return self.owner_lastname
       
-
+      @getOwnerLastName.setter
       def setOwnerLastName(self, name):
             self.owner_lastname = name
       
@@ -83,34 +85,43 @@ class Account:
       def setOwnerSocial(self, digits):
             self._social = digits
       
-
+      @property
       def getOwnerPin(self):
             return self.pin_num
       
-
+      @getOwnerPin.setter
       def setOwnerPin(self, new_pin):
             self.pin_num = new_pin
+      
+      @property
+      def getOwnerBalance(self):
+            return self.balance
+      
+      @getOwnerBalance.setter
+      def setOwnerBalance(self, balance):
+            self.balance += balance
+      
     
-       
       def deposit(self, amount): # 2 unit tests need to be implemented
             # adds the amount to the account balance and returns
             # the new account balance
-            self.balance += amount
-            return self.balance
+            self.setOwnerBalance(amount)
+            return self.getOwnerBalance
       
       def withdraw(self, amount): # 2 unit tests need to be implemented
             # subtracts the amount from the account balance and returns
             # the new account balance
             # if not enough funds available, returns a string 
-            if self.balance > 0:
-                  self.balance -= amount
-                  return self.balance
+            if self.getOwnerBalance() > 0:
+                  new_balance = self.getOwnerBalance - amount
+                  self.setOwnerBalance(new_balance)
+                  return self.getOwnerBalance
             return "not enough funds available"
       
       def isValidPIN(self, pin): # 2 unit tests need to be implemented
             # if the pin entered matches the pin of the account
             # return true, false otherwise
-            if self.pin_num == pin:
+            if self.getOwnerPin == pin:
                   return True
             return False
       
@@ -118,11 +129,11 @@ class Account:
             # returns a string of all of the information of the account class
             return f'''
                   Account_number : {self.account_num}
-                  Owner First Name : {self.owner_firstname}
-                  Owner Last name : {self.owner_lastname}
-                  Owner SSN : XXX-XXX-{self._social[-4:]}
-                  pin = {self.pin_num}
-                  balance = ${self.balance}
+                  Owner First Name : {self.getOwnerFirstName}
+                  Owner Last name : {self.getOwnerLastName}
+                  Owner SSN : XXX-XXX-{self.getOwnerSocial[-4:]}
+                  pin = {self.getOwnerPin}
+                  balance = ${self.getOwnerBalance}
                   '''
                   
 class CoinCollector:
