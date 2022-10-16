@@ -41,14 +41,19 @@ class Bank:
                         return stored_account
                   return "Account not found"
       
-      def addMonthlyInterest(self, percent): # 2 unit tests need to be implemented
-            # parameter received of type: FLOAT
-            # iterates through all the accounts in the list
-            # deposits a monthly interest payment into every account
-            # monthly interest is the current balance of the account nultiplied by the monthly interest rate
-            for stored_account in self.allbank_accounts:
-                  monthly_interest =  stored_account.balance * (percent / 12)
-                  stored_account.balance += monthly_interest
+      def addMonthlyInterest(self): # 2 unit tests need to be implemented
+      # look through all of the account in the bank's account list
+      # calculate the monthly rate by multiplying the account balance times the annual rate
+      # then, divide that by twelve
+      # then, turn that into an integer (two digits) and divide it by 100 to give you a value
+      # save the above value into a variable named monthly rate
+      # add this amount to the account's balance
+      # display the account balance as a string
+            annual_rate = float(input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n"))
+            for account in self.mercado_bank.allbank_accounts:
+                  monthly_rate = int(((annual_rate  * account.getOwnerBalance) / 12)) / 100
+                  account.setOwnerBalance = account.getOwnerBalance + monthly_rate
+                  print(f"Deposited interest: {monthly_rate} into account number: {account.account_num}, new balance: ${round(account.getOwnerBalance, 2)}")
 
 class Account:
       def __init__ (self, account_number, owner_fname, owner_lname, ssn, pin):
@@ -99,13 +104,13 @@ class Account:
       
       @getOwnerBalance.setter
       def setOwnerBalance(self, balance):
-            self.balance += balance
+            self.balance = balance
       
     
       def deposit(self, amount): # 2 unit tests need to be implemented
             # adds the amount to the account balance and returns
             # the new account balance
-            self.setOwnerBalance = amount
+            self.setOwnerBalance += amount
             return self.getOwnerBalance
       
       def withdraw(self, amount): # 2 unit tests need to be implemented
@@ -312,23 +317,15 @@ class BankUtility:
             # if the confirmed pin equals the new pin given by the user:
             # change the account's pin number to the new pin number
             # else, print that it is an invalid pin number or an invalid account number
-            for account in self.mercado_bank.allbank_accounts:
-                  if account.account_num == account_number:
-                        if account.getOwnerPin == account_pin:
-                              new_pin = int(input("Enter new PIN: \n"))
-                              confirmed_pin = int(input("Enter new PIN again to confirm: \n"))
-                              if new_pin == confirmed_pin:
-                                    account.setOwnerPin = confirmed_pin
-                                    print("PIN updated")
-                                    # print(account.pin_num)
-                                    # print(mercado_bank.allbank_accounts)
-                              else:
-                                    print("Invalid PIN, Try again")
-                                    self.menu_redirect()
-                        else:
-                              print("Invalid PIN number")
-                  else:
-                        print("Invalid account number")
+            user_account = self.userIsConfirmed(account_number, account_pin)
+            if user_account:
+                  new_pin = int(input("Enter new PIN: \n"))
+                  confirmed_pin = int(input("Enter new PIN again to confirm: \n"))
+                  if new_pin == confirmed_pin:
+                        user_account.setOwnerPin = confirmed_pin
+                        print("PIN updated")
+                        # print(account.pin_num)
+                        # print(mercado_bank.allbank_accounts)
 
       def depositMoneyToAccount(self): # REFACTOR
             account_number, account_pin = self.askAccountNumAndPin()
@@ -340,16 +337,15 @@ class BankUtility:
             # else, call the deposit amount, and deposit the money in the account
             # print the account's information
             # if any account information doesn't match, redirect user to menu again
-            for account in self.mercado_bank.allbank_accounts:
-                  if account.account_num == account_number:
-                        if account.getOwnerPin == account_pin:
-                              self.deposit_amount = float(input("Please enter an amount to deposit: \n"))
-                        if self.deposit_amount <= 0:
-                              print("Amount cannot be negative. Try again.")
-                        else:
-                              account.deposit(self.deposit_amount)
-                              print(f"New balance: ${account.getOwnerBalance}")
-            self.menu_redirect()
+            user_account = self.userIsConfirmed(account_number, account_pin)
+            if user_account:
+                  self.deposit_amount = float(input("Please enter an amount to deposit: \n"))
+                  if self.deposit_amount <= 0:
+                        print("Amount cannot be negative. Try again.")
+                  else:
+                        user_account.deposit(self.deposit_amount)
+                        print(f"New balance: ${user_account.getOwnerBalance}")
+
 
       def transferBetweenAccounts(self):
             print("Account to transfer from:")
@@ -364,52 +360,40 @@ class BankUtility:
             # print the account's information
             # if any account information doesn't match, Print an error message
             # redirect user to menu again if everything else fails
-            for account in self.mercado_bank.allbank_accounts:
-                  if account.account_num == account_number:
-                        if account.getOwnerPin == account_pin:
-                              print("**Account to transfer to**:")
-                              t_account_number, t_account_pin = self.askAccountNumAndPin()
-                              for t_account in self.mercado_bank.allbank_accounts:
-                                    if t_account.account_num == t_account_number:
-                                          if t_account.getOwnerPin == t_account_pin:
-                                                deposit_amount = float(input("Please enter an amount to deposit in dollars and cents (Ex, 5.99): \n"))
-                                                if account.getOwnerBalance <= 0:
-                                                      print("Amount cannot be negative. Try again.")
-                                                elif account.getOwnerBalance < deposit_amount:
-                                                      print("Not enough funds to transfer. Try again.")
-                                                else:
-                                                      account.withdraw(deposit_amount)
-                                                      t_account.deposit(deposit_amount)
-                                                      print("** Transfer Complete **")
-                                                      print(f"New balance in account:{account.account_num} is: ${account.getOwnerBalance}")
-                                                      print(f"New balance in account:{t_account.account_num} is: ${t_account.getOwnerBalance}")
-                                          else:
-                                                print("Wrong transfer account PIN. Try again.")
-                                    else:
-                                          print("Wrong transfer account number. Try again.")
+            user_account = self.userIsConfirmed(account_number, account_pin)
+            if user_account:
+                  print("**Account to transfer to**:")
+                  t_account_number, t_account_pin = self.askAccountNumAndPin()
+                  transferingto_account = self.userIsConfirmed(t_account_number, t_account_pin)
+                  if transferingto_account:
+                        deposit_amount = float(input("Please enter an amount to deposit in dollars and cents (Ex, 5.99): \n"))
+                        if user_account.getOwnerBalance <= 0:
+                              print("Amount cannot be negative. Try again.")
+                        elif user_account.getOwnerBalance < deposit_amount:
+                              print("Not enough funds to transfer. Try again.")
                         else:
-                              print("Wrong account PIN. Try again.")
-                  else:
-                        print("Wrong account number. Try again.")
-            self.menu_redirect()
+                              user_account.withdraw(deposit_amount)
+                              transferingto_account.deposit(deposit_amount)
+                              print("** Transfer Complete **")
+                              print(f"New balance in account:{user_account.account_num} is: ${user_account.getOwnerBalance}")
+                              print(f"New balance in account:{transferingto_account.account_num} is: ${transferingto_account.getOwnerBalance}")
+                              
 
       def withdrawFromAccount(self): # REFACTOR
             # search through the bank's list of accounts
             # if the account number equals the account number given by the user
             # if the account's pin number equals the pin number given by the user
             account_number, account_pin = self.askAccountNumAndPin()
-            for account in self.mercado_bank.allbank_accounts:
-                  if account.account_num == account_number:
-                        if account.getOwnerPin == account_pin:
-                              withdraw_amount = float(input("Please enter an amount to withdraw in dollars and cents (Ex, 5.99): \n"))
-                              if withdraw_amount <= 0:
-                                    print("Amount cannot be negative. Try again.")
-                              elif account.getOwnerBalance < withdraw_amount:
-                                    print("Not enough funds to withdraw. Try again.")
-                              else:
-                                    account.withdraw(withdraw_amount)
-                                    print(f"New balance: ${account.getOwnerBalance}")
-            self.menu_redirect()
+            user_account = self.userIsConfirmed(account_number, account_pin)
+            if user_account:
+                  withdraw_amount = float(input("Please enter an amount to withdraw in dollars and cents (Ex, 5.99): \n"))
+                  if withdraw_amount <= 0:
+                        print("Amount cannot be negative. Try again.")
+                  elif user_account.getOwnerBalance < withdraw_amount:
+                        print("Not enough funds to withdraw. Try again.")
+                  else:
+                        user_account.withdraw(withdraw_amount)
+                        print(f"New balance: ${user_account.getOwnerBalance}")
 
       def withdrawFromATM(self):
             # search through the bank's list of accounts
@@ -427,25 +411,24 @@ class BankUtility:
             # call the account withdraw method
             # print the new account balance
             account_number, account_pin = self.askAccountNumAndPin()
-            for account in self.mercado_bank.allbank_accounts:
-                  if account.account_num == account_number:
-                        if account.getOwnerPin == account_pin:
-                              self.withdraw_amount = int(input("Enter amount to withdraw in dollars (no cents) in multiples of $5 (limit $1,000): \n"))
-                        if self.withdraw_amount < 5 or self.withdraw_amount > 1000 or self.withdraw_amount %5 != 0:
-                              print("Invalid amount. Try again.")
-                        elif account.getOwnerBalance < self.withdraw_amount:
-                              print("Not enough funds. Try again.")
-                        else:
-                              twentys = math.floor(self.withdraw_amount / 20)
-                              new_amount = self.withdraw_amount - (twentys * 20)
-                              tens = math.floor(new_amount / 10)
-                              new_amount -= (tens * 10)
-                              fives = math.floor(new_amount / 5)
-                              print(f"Number of 20-dollar bills: {twentys}")
-                              print(f"Number of 10-dollar bills: {tens}")
-                              print(f"Number of 5-dollar bills: {fives}")
-                              account.withdraw(self.withdraw_amount)
-                              print(f"New balance: ${account.getOwnerBalance}")
+            user_account = self.userIsConfirmed(account_number, account_pin)
+            if user_account:
+                  self.withdraw_amount = int(input("Enter amount to withdraw in dollars (no cents) in multiples of $5 (limit $1,000): \n"))
+                  if self.withdraw_amount < 5 or self.withdraw_amount > 1000 or self.withdraw_amount % 5 != 0:
+                        print("Invalid amount. Try again.")
+                  elif user_account.getOwnerBalance < self.withdraw_amount:
+                        print("Not enough funds. Try again.")
+                  else:
+                        twentys = math.floor(self.withdraw_amount / 20)
+                        new_amount = self.withdraw_amount - (twentys * 20)
+                        tens = math.floor(new_amount / 10)
+                        new_amount -= (tens * 10)
+                        fives = math.floor(new_amount / 5)
+                        print(f"Number of 20-dollar bills: {twentys}")
+                        print(f"Number of 10-dollar bills: {tens}")
+                        print(f"Number of 5-dollar bills: {fives}")
+                        user_account.withdraw(self.withdraw_amount)
+                        print(f"New balance: ${user_account.getOwnerBalance}")
 
       def depositChange(self):
       # set a list with the valid coin letters
@@ -463,19 +446,13 @@ class BankUtility:
       # redirect to menu
             valid_coins = ["P", "N", "D", "Q", "H", "W"]
             account_number, account_pin = self.askAccountNumAndPin()
-            for account in self.mercado_bank.allbank_accounts:
-                  if account.account_num == account_number:
-                        if account.getOwnerPin == account_pin:
-                              coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n").upper()
+            user_account = self.userIsConfirmed(account_number, account_pin)
+            if user_account:
+                  coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n").upper()
                         
-                              deposit_amt = self.collector.parseChange(coins)
-                              account.deposit(deposit_amt)
-                              print(f"New balance: ${account.getOwnerBalance}")
-                        else:
-                              print("Wrong account PIN. Try again.")
-                  else:
-                        print("Wrong account number. Try again.")
-            self.menu_redirect()
+                  deposit_amt = self.collector.parseChange(coins)
+                  user_account.deposit(deposit_amt)
+                  print(f"New balance: ${user_account.getOwnerBalance}")
 
       def closeAccount(self):
       # set a list with the valid coin letters
@@ -484,32 +461,11 @@ class BankUtility:
       # if the account number equals the account number given by the user
       # if the account's pin number equals the pin number given by the user
             account_number, account_pin = self.askAccountNumAndPin()
-            for account in self.mercado_bank.allbank_accounts:
-                  if account.account_num == account_number:
-                        if account.getOwnerPin == account_pin:
-                              self.mercado_bank.allbank_accounts.remove(account)
-                              print(f'Account {account.account_num} has been closed')
-                        else:
-                              print("Wrong account PIN. Try again.")
-                  else:
-                        print("Wrong account number. Try again.")
-            self.menu_redirect()
+            user_account = self.userIsConfirmed(account_number, account_pin)
+            if user_account:
+                  self.mercado_bank.allbank_accounts.remove(user_account)
+                  print(f'Account {user_account.account_num} has been closed')
 
-      def addMonthlyInterest(self):
-      # look through all of the account in the bank's account list
-      # calculate the monthly rate by multiplying the account balance times the annual rate
-      # then, divide that by twelve
-      # then, turn that into an integer (two digits) and divide it by 100 to give you a value
-      # save the above value into a variable named monthly rate
-      # add this amount to the account's balance
-      # display the account balance as a string
-            annual_rate = float(input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n"))
-            for account in self.mercado_bank.allbank_accounts:
-                  monthly_rate = int(((annual_rate  * account.getOwnerBalance) / 12)) / 100
-                  account.getOwnerBalance += monthly_rate
-                  print(f"Deposited interest: {monthly_rate} into account number: {account.account_num}, new balance: ${account.getOwnerBalance}")
-                              
-                  
       def askAccountNumAndPin(self):
       # this is a helper function that will ask for the account number and pin
       # it will return both values which will be saved in separate variables
@@ -541,8 +497,8 @@ class BankUtility:
             
       
 class BankManager(Bank, Account, CoinCollector, BankUtility): 
-      mercado_bank = Bank() # ? is it needed?
-      collector = CoinCollector() # ? is it needed?
+      mercado_bank = Bank()
+      collector = CoinCollector() 
       
       def __init__(self): 
             super().__init__()
