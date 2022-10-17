@@ -15,13 +15,11 @@ class Bank:
             # the list length is less than the number of accounts supported
             # returns True if the account is added to the allbank_accounts list
             # print a message if the account is not added and returns False
-            if len(self.allbank_accounts) < self.numaccounts_supported:
-                  self.allbank_accounts.append(account)
+            if len(self.mercado_bank.allbank_accounts) < self.mercado_bank.numaccounts_supported:
+                  self.mercado_bank.allbank_accounts.append(account)
                   print("appending account")
-                  print(self.allbank_accounts)
                   return True
             else:
-                  print("didnt append accoutn")
                   return False
 
       def removeAccountFromBank(self, account): # 2 unit tests need to be implemented
@@ -304,9 +302,9 @@ class BankUtility:
             pin = self.randomNums(4)
             
             if len(str(pin)) != 4:
-                  account_num = self.randomNums(9)
+                  pin = self.randomNums(9)
             # creates a new account object and passes in the users inputs
-            new_account = Account(account_num,user_fname, user_lname, user_ssn, pin)
+            new_account = Account(account_num, user_fname, user_lname, user_ssn, pin)
             # Adds this account number to the bank's account list
       
             # print(mercado_bank.allbank_accounts)
