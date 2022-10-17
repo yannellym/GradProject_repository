@@ -6,7 +6,7 @@ class Bank:
             # stores all the accounts in the bank
             # has a set number of accounts that it can support
             self.allbank_accounts = []
-            self.numaccounts_supported = 10
+            self.numaccounts_supported = 100
             
             
       def addAccountToBank(self, account): # 2 unit tests need to be implemented
@@ -16,10 +16,13 @@ class Bank:
             # returns True if the account is added to the allbank_accounts list
             # print a message if the account is not added and returns False
             if len(self.allbank_accounts) < self.numaccounts_supported:
-                  self.allbank_accounts += account
+                  self.allbank_accounts.append(account)
+                  print("appending account")
+                  print(self.allbank_accounts)
                   return True
-            print("No more accounts available")
-            return False
+            else:
+                  print("didnt append accoutn")
+                  return False
 
       def removeAccountFromBank(self, account): # 2 unit tests need to be implemented
             # parameter received of type: OBJECT
@@ -42,13 +45,13 @@ class Bank:
                   return "Account not found"
       
       def addMonthlyInterest(self): # 2 unit tests need to be implemented
-      # look through all of the account in the bank's account list
-      # calculate the monthly rate by multiplying the account balance times the annual rate
-      # then, divide that by twelve
-      # then, turn that into an integer (two digits) and divide it by 100 to give you a value
-      # save the above value into a variable named monthly rate
-      # add this amount to the account's balance
-      # display the account balance as a string
+            # look through all of the account in the bank's account list
+            # calculate the monthly rate by multiplying the account balance times the annual rate
+            # then, divide that by twelve
+            # then, turn that into an integer (two digits) and divide it by 100 to give you a value
+            # save the above value into a variable named monthly rate
+            # add this amount to the account's balance
+            # display the account balance as a string
             annual_rate = float(input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n"))
             for account in self.mercado_bank.allbank_accounts:
                   monthly_rate = int(((annual_rate  * account.getOwnerBalance) / 12)) / 100
@@ -63,9 +66,7 @@ class Account:
             self._social = ssn
             self.pin_num = pin
             self.balance = 0.00
-            
-      # add methods as getters and setters for attributes  
-      # ONLY THROUGH FUNCTIONS ACCESS    
+             
       @property
       def getOwnerFirstName(self):
             return self.owner_firstname
@@ -192,19 +193,19 @@ class BankUtility:
             user_response = eval(prompt)
             if user_response <= 0:
                   print("Amount cannot be negative. Try again")
-                  self.promptUserForPositiveNumber(prompt)
+                  return False
             else:
                   return user_response
                   
       
-      def generateRandomInteger(min, max): # needs 2 unit tests
+      def generateRandomInteger(self, min, max): # needs 2 unit tests
             # parameters received of type: INT
             # takes in the min and max value and generates a random integer between these two numbers (both inclusive)
             # returns the random integer 
             ran_num = random.randint(min, max + 1)
             return ran_num
       
-      def convertFromDollarsToCents(amount):        # needs 2 unit tests
+      def convertFromDollarsToCents(self, amount):        # needs 2 unit tests
             # parameter received of type: FLOAT  
             # takes in a float and converts it to string
             # will remove the dots in the string
@@ -212,7 +213,7 @@ class BankUtility:
             new_amount = str(amount).replace(".", "")
             return int(new_amount)
       
-      def isNumeric(numberToCheck): # needs 2 unit tests
+      def isNumeric(self, numberToCheck): # needs 2 unit tests
             try:
                   if numberToCheck.isdigit():
                         return True
@@ -220,9 +221,10 @@ class BankUtility:
                         return False
             except ValueError:
                   return False
+            
       # Helper functions for main
       def options(self):
-      # Displays the options to the user
+            # Displays the options to the user
             print(
                   '''
                         What do you want to do?
@@ -241,44 +243,57 @@ class BankUtility:
       
       def menu_redirect(self):
             self.options()
-            user_choice = int(input("Please input choice number: "))
+            user_choice = input("Please input choice number: ")
             choices = [1,2,3,4,5,6,7,8,9,10,11]
             
-            if user_choice not in choices:
-                  print("invalid choice, please try again.")
-                  self.options()  
-            else:
-                  if user_choice == 11:
-                        print("*** Thank you for using MercadoBank. Have a nice day! ***")
+            if self.isNumeric(user_choice):
+                  user_choice = int(user_choice)
+                  if user_choice not in choices:
+                        print("invalid choice, please try again.")
+                        self.menu_redirect()  
                   else:
-                        match user_choice:
-                              case 1:
-                                    print(self.openAccount()) 
-                              case 2:
-                                    print(self.getAccountInfoAndBalance())
-                              case 3:
-                                    self.changePin()
-                              case 4:
-                                    self.depositMoneyToAccount()
-                              case 5:
-                                    self.transferBetweenAccounts()
-                              case 6:
-                                    self.withdrawFromAccount()
-                              case 7:
-                                    self.withdrawFromATM()
-                              case 8:
-                                    self.depositChange()
-                              case 9:
-                                    self.closeAccount()
-                              case 10:
-                                    self.addMonthlyInterest()
-                        self.menu_redirect()
-                  
+                        if user_choice == 11:
+                              print("*** Thank you for using MercadoBank. Have a nice day! ***")
+                        else:
+                              match user_choice:
+                                    case 1:
+                                          print(self.openAccount()) 
+                                    case 2:
+                                          print(self.getAccountInfoAndBalance())
+                                    case 3:
+                                          self.changePin()
+                                    case 4:
+                                          self.depositMoneyToAccount()
+                                    case 5:
+                                          self.transferBetweenAccounts()
+                                    case 6:
+                                          self.withdrawFromAccount()
+                                    case 7:
+                                          self.withdrawFromATM()
+                                    case 8:
+                                          self.depositChange()
+                                    case 9:
+                                          self.closeAccount()
+                                    case 10:
+                                          self.addMonthlyInterest()
+                              self.menu_redirect()
+            else:
+                  print("Please enter a numeric character. Try again. ")
+                  self.menu_redirect()
       
       def openAccount(self):
             user_fname = self.promptUserForString("first name")
             user_lname = self.promptUserForString("last name")
             user_ssn = self.promptUserForString("SSN (9 Digits)")
+            
+            if user_fname == "" or user_lname == "" or user_ssn == "":
+                  print("Invalid input. Try again.")
+                  self.menu_redirect()
+                  
+            if len(user_ssn) < 9 or len(user_ssn) > 9:
+                  print("invalid SSN number. Must be 9 digits. Try again.")
+                  self.menu_redirect()
+                  
             # calls the randomNums function to generate 9 random numbers
             account_num = self.randomNums(9)
             # if the account number is already in the bank's account list
@@ -287,14 +302,20 @@ class BankUtility:
                   account_num = self.randomNums(9)
             # calls the randomNums function to generate 4 random numbers
             pin = self.randomNums(4)
+            
+            if len(str(pin)) != 4:
+                  account_num = self.randomNums(9)
             # creates a new account object and passes in the users inputs
             new_account = Account(account_num,user_fname, user_lname, user_ssn, pin)
             # Adds this account number to the bank's account list
-            self.mercado_bank.allbank_accounts.append(new_account)
+      
             # print(mercado_bank.allbank_accounts)
             # returns the account information for the user
-            print("Account creation successful!")
-            return new_account.__repr__()
+            if self.addAccountToBank(new_account):
+                  print("Account creation successful!")
+                  return new_account.__repr__()
+            else:
+                  print("No more accounts available")
 
       def getAccountInfoAndBalance(self):
             account_number, account_pin = self.askAccountNumAndPin()
@@ -327,7 +348,7 @@ class BankUtility:
                         # print(account.pin_num)
                         # print(mercado_bank.allbank_accounts)
 
-      def depositMoneyToAccount(self): # REFACTOR
+      def depositMoneyToAccount(self): 
             account_number, account_pin = self.askAccountNumAndPin()
             # search through the bank's list of accounts
             # if the account number equals the account number given by the user
@@ -338,14 +359,16 @@ class BankUtility:
             # print the account's information
             # if any account information doesn't match, redirect user to menu again
             user_account = self.userIsConfirmed(account_number, account_pin)
-            if user_account:
-                  self.deposit_amount = float(input("Please enter an amount to deposit: \n"))
-                  if self.deposit_amount <= 0:
-                        print("Amount cannot be negative. Try again.")
+            if user_account == account_number:
+                  user_deposit = self.promptUserForPositiveNumber(input("Please enter an amount to deposit: \n"))
+                  if user_deposit:
+                        user_account.deposit(user_deposit)
+                        print(f"New balance: ${user_account.getOwnerBalance}")  
                   else:
-                        user_account.deposit(self.deposit_amount)
-                        print(f"New balance: ${user_account.getOwnerBalance}")
-
+                        print("no deposit")    
+            else:
+                  print("no user account")
+                        
 
       def transferBetweenAccounts(self):
             print("Account to transfer from:")
@@ -431,19 +454,19 @@ class BankUtility:
                         print(f"New balance: ${user_account.getOwnerBalance}")
 
       def depositChange(self):
-      # set a list with the valid coin letters
-      # call the askAccountNumAndPin function to get the user's input
-      # search through the bank's list of accounts
-      # if the account number equals the account number given by the user
-      # if the account's pin number equals the pin number given by the user
-      # prompt the user to enter a string of the coins they want to deposit. Save it in coins variable
-      # set a variable called deposit amount to 0
-      # search through each letter in the coins variable
-      # if coin is NOT in our valid coins list, print a message with invalid coin and show the coin
-      # else, call the parseChange method and add it to the total of the deposit amount variable
-      # call the deposit method on the account and deposit the deposit amount
-      # if the above fails, print a message with either wrong account num or wrong PIN
-      # redirect to menu
+            # set a list with the valid coin letters
+            # call the askAccountNumAndPin function to get the user's input
+            # search through the bank's list of accounts
+            # if the account number equals the account number given by the user
+            # if the account's pin number equals the pin number given by the user
+            # prompt the user to enter a string of the coins they want to deposit. Save it in coins variable
+            # set a variable called deposit amount to 0
+            # search through each letter in the coins variable
+            # if coin is NOT in our valid coins list, print a message with invalid coin and show the coin
+            # else, call the parseChange method and add it to the total of the deposit amount variable
+            # call the deposit method on the account and deposit the deposit amount
+            # if the above fails, print a message with either wrong account num or wrong PIN
+            # redirect to menu
             valid_coins = ["P", "N", "D", "Q", "H", "W"]
             account_number, account_pin = self.askAccountNumAndPin()
             user_account = self.userIsConfirmed(account_number, account_pin)
@@ -455,11 +478,11 @@ class BankUtility:
                   print(f"New balance: ${user_account.getOwnerBalance}")
 
       def closeAccount(self):
-      # set a list with the valid coin letters
-      # call the askAccountNumAndPin function to get the user's input
-      # search through the bank's list of accounts
-      # if the account number equals the account number given by the user
-      # if the account's pin number equals the pin number given by the user
+            # set a list with the valid coin letters
+            # call the askAccountNumAndPin function to get the user's input
+            # search through the bank's list of accounts
+            # if the account number equals the account number given by the user
+            # if the account's pin number equals the pin number given by the user
             account_number, account_pin = self.askAccountNumAndPin()
             user_account = self.userIsConfirmed(account_number, account_pin)
             if user_account:
@@ -467,21 +490,26 @@ class BankUtility:
                   print(f'Account {user_account.account_num} has been closed')
 
       def askAccountNumAndPin(self):
-      # this is a helper function that will ask for the account number and pin
-      # it will return both values which will be saved in separate variables
-            account_number = int(input("Please enter the account number: \n"))
-            account_pin = int(input("Please enter the account pin: \n"))
-            return account_number, account_pin
-            
+            # this is a helper function that will ask for the account number and pin
+            # it will return both values which will be saved in separate variables
+            account_number = input("Please enter the account number: \n")
+            account_pin = input("Please enter the account pin: \n")
+           
+            if not self.isNumeric(account_number) or not self.isNumeric(account_pin):
+                  print("Input must be numeric.")
+                  self.menu_redirect()
+            else:
+                  return int(account_number), int(account_pin)
+      
       def randomNums(self,num):
-          # loops num amount of times
-      # each time, it will call the method generaterandominterger from the bank Utility class
-      # it will pass in two numbers, 0 and num
-      # it will append the number to a res array
-      # returns the array as a joined number
+            # loops num amount of times
+            # each time, it will call the method generaterandominterger from the bank Utility class
+            # it will pass in two numbers, 0 and num
+            # it will append the number to a res array
+            # returns the array as a joined number
             res = []
-            for i in range(num):
-                  res.append(BankUtility.generateRandomInteger(0,num))
+            for i in range(0, num):
+                  res.append(self.generateRandomInteger(0,num))
             return int("".join(map(str, res)))
       
       def userIsConfirmed(self, account_number, account_pin):
