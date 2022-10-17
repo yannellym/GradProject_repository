@@ -25,14 +25,15 @@ What do you want to do?
     File name: project_08.py
     Author: Yannelly Mercado
     Date created: 10/10/2022
-    Date last modified: 10/15/2022
+    Date last modified: 10/17/2022
     Python Version: 2.7.18
 '''
 
 #executes the main functions for the program
 def main():
-    # print(logo)
+    # create an instance of the bankManager class and name it program
     program = BankManager()
+    # initialize the program by calling its initialize method
     program.initialize()
     
         

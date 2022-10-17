@@ -17,7 +17,6 @@ class Bank:
             # print a message if the account is not added and returns False
             if len(self.mercado_bank.allbank_accounts) < self.mercado_bank.numaccounts_supported:
                   self.mercado_bank.allbank_accounts.append(account)
-                  print("appending account")
                   return True
             else:
                   return False
@@ -188,9 +187,9 @@ class BankUtility:
             # if the number is less than or equal to zero
             # will print a message and loop again
             # if number is positive, will return the number
-            user_response = eval(prompt)
+            user_response = eval(input(prompt))
             if user_response <= 0:
-                  print("Amount cannot be negative. Try again")
+                  print("Amount cannot be negative. Try again")    
                   return False
             else:
                   return user_response
@@ -284,31 +283,40 @@ class BankUtility:
             user_lname = self.promptUserForString("last name")
             user_ssn = self.promptUserForString("SSN (9 Digits)")
             
+            # if the user didnt input a name or a last name or an SSN,
+            # redirect them to the menu again.
             if user_fname == "" or user_lname == "" or user_ssn == "":
                   print("Invalid input. Try again.")
                   self.menu_redirect()
-                  
-            if len(user_ssn) < 9 or len(user_ssn) > 9:
-                  print("invalid SSN number. Must be 9 digits. Try again.")
+            
+            # if the length of the user SSN is less than 9 or greater than 9 or
+            # the user SSN is not numeric, then print a message and redirect user to menu again. 
+            print(self.isNumeric(user_ssn))   
+             
+            if len(user_ssn) != 9 or not self.isNumeric(user_ssn):
+                  print("Social Security number must be 9 digits and numeric. Try again.")
                   self.menu_redirect()
-                  
+
             # calls the randomNums function to generate 9 random numbers
             account_num = self.randomNums(9)
+            
             # if the account number is already in the bank's account list
             # generate another account number
             if account_num in self.mercado_bank.allbank_accounts:
                   account_num = self.randomNums(9)
+                  
             # calls the randomNums function to generate 4 random numbers
             pin = self.randomNums(4)
             
+            # If the length of the pin is not 4 digits long, generate a new pin
             if len(str(pin)) != 4:
-                  pin = self.randomNums(9)
+                  pin = self.randomNums(4)
             # creates a new account object and passes in the users inputs
             new_account = Account(account_num, user_fname, user_lname, user_ssn, pin)
             # Adds this account number to the bank's account list
-      
-            # print(mercado_bank.allbank_accounts)
+ 
             # returns the account information for the user
+            # if the bank's account list is full, return "no more accounts available" 
             if self.addAccountToBank(new_account):
                   print("Account creation successful!")
                   return new_account.__repr__()
@@ -337,15 +345,11 @@ class BankUtility:
             # change the account's pin number to the new pin number
             # else, print that it is an invalid pin number or an invalid account number
             user_account = self.userIsConfirmed(account_number, account_pin)
-            if user_account:
-                  new_pin = int(input("Enter new PIN: \n"))
-                  confirmed_pin = int(input("Enter new PIN again to confirm: \n"))
-                  if new_pin == confirmed_pin:
-                        user_account.setOwnerPin = confirmed_pin
-                        print("PIN updated")
-                        # print(account.pin_num)
-                        # print(mercado_bank.allbank_accounts)
+            
+            if not self.verifySecondPin(user_account):       
+                  self.verifySecondPin(user_account)
 
+            
       def depositMoneyToAccount(self): 
             account_number, account_pin = self.askAccountNumAndPin()
             # search through the bank's list of accounts
@@ -357,15 +361,10 @@ class BankUtility:
             # print the account's information
             # if any account information doesn't match, redirect user to menu again
             user_account = self.userIsConfirmed(account_number, account_pin)
-            if user_account == account_number:
-                  user_deposit = self.promptUserForPositiveNumber(input("Please enter an amount to deposit: \n"))
-                  if user_deposit:
-                        user_account.deposit(user_deposit)
-                        print(f"New balance: ${user_account.getOwnerBalance}")  
-                  else:
-                        print("no deposit")    
-            else:
-                  print("no user account")
+      
+            while not self.verifyPositiveAmount(user_account, account_number):
+                  self.verifyPositiveAmount(user_account, account_number)
+                  
                         
 
       def transferBetweenAccounts(self):
@@ -391,7 +390,7 @@ class BankUtility:
                         if user_account.getOwnerBalance <= 0:
                               print("Amount cannot be negative. Try again.")
                         elif user_account.getOwnerBalance < deposit_amount:
-                              print("Not enough funds to transfer. Try again.")
+                              print(f"Insufficient funds in account {user_account.account_num}")
                         else:
                               user_account.withdraw(deposit_amount)
                               transferingto_account.deposit(deposit_amount)
@@ -399,7 +398,6 @@ class BankUtility:
                               print(f"New balance in account:{user_account.account_num} is: ${user_account.getOwnerBalance}")
                               print(f"New balance in account:{transferingto_account.account_num} is: ${transferingto_account.getOwnerBalance}")
                               
-
       def withdrawFromAccount(self): # REFACTOR
             # search through the bank's list of accounts
             # if the account number equals the account number given by the user
@@ -411,7 +409,7 @@ class BankUtility:
                   if withdraw_amount <= 0:
                         print("Amount cannot be negative. Try again.")
                   elif user_account.getOwnerBalance < withdraw_amount:
-                        print("Not enough funds to withdraw. Try again.")
+                        print(f"Insufficient funds in account {user_account.account_num}")
                   else:
                         user_account.withdraw(withdraw_amount)
                         print(f"New balance: ${user_account.getOwnerBalance}")
@@ -519,6 +517,41 @@ class BankUtility:
                               print("Invalid PIN number")
                   else:
                         print("Account not found for account number: %d" % account_number)    
+            return False
+      
+      
+      def verifySecondPin(self, user_account):
+            if user_account:
+                  new_pin = input("Enter new PIN: \n")
+                  if self.isNumeric(new_pin):
+                        if len(new_pin) == 4:
+                              confirmed_pin = input("Enter new PIN again to confirm: \n")
+                              if self.isNumeric(confirmed_pin):
+                                    if new_pin == confirmed_pin:
+                                          user_account.setOwnerPin = int(confirmed_pin)
+                                          print("PIN updated")
+                                          return True
+                                    else:
+                                          print("PINs do not match, try again.")
+                              else:
+                                    print(f"{confirmed_pin} is not a number.")
+                        else:
+                              print(f"PIN must be 4 digits, try again.")
+                  else:
+                        print(f"{confirmed_pin} is not a number.")
+                  return False
+      
+      def verifyPositiveAmount(self, user_account, account_number):
+            if user_account:
+                  if user_account.account_num == account_number:
+                        user_deposit = self.promptUserForPositiveNumber("Enter amount to deposit in dollars and cents (e.g. 2.57): \n")
+                        if user_deposit:
+                              user_account.deposit(user_deposit)
+                              print(f"New balance: ${user_account.getOwnerBalance}")
+                              return True
+                        else:
+                              self.verifyPositiveAmount(user_account, account_number)
+            print(f"No user account for ${account_number}")
             return False
             
       
