@@ -63,7 +63,8 @@ class Account:
             self._social = ssn
             self.pin_num = pin
             self.balance = 0.00
-             
+     
+      # getters and setters for the Account object    
       @property
       def getOwnerFirstName(self):
             return self.owner_firstname
@@ -194,7 +195,6 @@ class BankUtility:
             else:
                   return user_response
                   
-      
       def generateRandomInteger(self, min, max): # needs 2 unit tests
             # parameters received of type: INT
             # takes in the min and max value and generates a random integer between these two numbers (both inclusive)
@@ -211,6 +211,8 @@ class BankUtility:
             return int(new_amount)
       
       def isNumeric(self, numberToCheck): # needs 2 unit tests
+            # if the numberToCheck is a number, returns True
+            # else, returns False
             try:
                   if numberToCheck.isdigit():
                         return True
@@ -239,10 +241,17 @@ class BankUtility:
                   ''')
       
       def menu_redirect(self):
+            # displays the options of the menu
             self.options()
             user_choice = input("Please input choice number: ")
+            # valid user choices
             choices = [1,2,3,4,5,6,7,8,9,10,11]
             
+            # if the user choice is a number
+            # and the user choice is in the valid user choices
+            # print the user's choice from the menu
+            # else, if the user choice is not in the valid user choices, redirect them to the menu again
+            # if the user choice is not a number, redirect them to the menu again
             if self.isNumeric(user_choice):
                   user_choice = int(user_choice)
                   if user_choice not in choices:
@@ -279,6 +288,7 @@ class BankUtility:
                   self.menu_redirect()
       
       def openAccount(self):
+            # call promptUserForString to ask the user for string inputs
             user_fname = self.promptUserForString("first name")
             user_lname = self.promptUserForString("last name")
             user_ssn = self.promptUserForString("SSN (9 Digits)")
@@ -304,7 +314,11 @@ class BankUtility:
             # generate another account number
             if account_num in self.mercado_bank.allbank_accounts:
                   account_num = self.randomNums(9)
-                  
+            
+            # if the length of the account number is not 9, generate a new account number
+            if len(str(account_num)) != 9:
+                  account_num = self.randomNums(9)
+            
             # calls the randomNums function to generate 4 random numbers
             pin = self.randomNums(4)
             
@@ -362,11 +376,9 @@ class BankUtility:
             # if any account information doesn't match, redirect user to menu again
             user_account = self.userIsConfirmed(account_number, account_pin)
       
-            while not self.verifyPositiveAmount(user_account, account_number):
-                  self.verifyPositiveAmount(user_account, account_number)
+            if self.verifyPositiveAmount(user_account, account_number):
+                  return
                   
-                        
-
       def transferBetweenAccounts(self):
             print("Account to transfer from:")
             account_number, account_pin = self.askAccountNumAndPin()
@@ -490,7 +502,10 @@ class BankUtility:
             # it will return both values which will be saved in separate variables
             account_number = input("Please enter the account number: \n")
             account_pin = input("Please enter the account pin: \n")
-           
+
+            # if the account number is not numeric or the pin is not numeric
+            # print a message for th euser and redirect them to the menu again
+            # else return the account number and pin number
             if not self.isNumeric(account_number) or not self.isNumeric(account_pin):
                   print("Input must be numeric.")
                   self.menu_redirect()
@@ -509,6 +524,11 @@ class BankUtility:
             return int("".join(map(str, res)))
       
       def userIsConfirmed(self, account_number, account_pin):
+            # looks through the bank's account list
+            # if the account number the user inputted is in the bank's list
+            # then, check if that account's pin equals the pin the user gave
+            # if true, then return the account object
+            # else, print the error message and return False
             for account in self.mercado_bank.allbank_accounts:
                   if account.account_num == account_number:
                         if account.getOwnerPin == account_pin:
@@ -521,6 +541,11 @@ class BankUtility:
       
       
       def verifySecondPin(self, user_account):
+            # if there is a user account, ask the user to enter a pin and save it in new_pin variable
+            # if the the user_pin is numeric and the length is 4, ask the user to confirm the pin again
+            # if the user_pin is the same as the pin that was confirmed, set the account's pin number to the new pin
+            # print a success message and return True
+            # else, print the error messages, and return False
             if user_account:
                   new_pin = input("Enter new PIN: \n")
                   if self.isNumeric(new_pin):
@@ -542,6 +567,11 @@ class BankUtility:
                   return False
       
       def verifyPositiveAmount(self, user_account, account_number):
+            # if there is a user account, and the user account number equals the account number of the object
+            # call the promptUserForPositiveNumber function to prompt the user for a positive amount
+            # if the above becomes true, then go to the account and deposit the positive amount
+            # display the new account balance and return True
+            # else, print the error messages, and return False
             if user_account:
                   if user_account.account_num == account_number:
                         user_deposit = self.promptUserForPositiveNumber("Enter amount to deposit in dollars and cents (e.g. 2.57): \n")
@@ -551,7 +581,8 @@ class BankUtility:
                               return True
                         else:
                               self.verifyPositiveAmount(user_account, account_number)
-            print(f"No user account for ${account_number}")
+                  else:
+                        print(f"No user account for ${account_number}")
             return False
             
       
