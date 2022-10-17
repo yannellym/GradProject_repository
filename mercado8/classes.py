@@ -152,7 +152,7 @@ class CoinCollector:
             # looks through each coin in the coin list and matches it with the value. Adds this value to the deposit amount
             # if coin is not a match to any value, print the message invalid coin and show the coin
             # returns the deposit amount
-            coin_list = [*coins]
+            coin_list = [*coins.upper()]
             print(coin_list)
             deposit_amt = 0
             for coin in coin_list:
@@ -189,9 +189,12 @@ class BankUtility:
             # will print a message and loop again
             # if number is positive, will return the number
             user_response = eval(input(prompt))
-            if user_response <= 0:
-                  print("Amount cannot be negative. Try again")    
+            if not isinstance(user_response, int):
+                  print("Deposit amount must be a positive number")
                   return False
+            elif user_response <= 0:
+                  print("Amount cannot be negative. Try again")    
+                  return False 
             else:
                   return user_response
                   
@@ -479,7 +482,7 @@ class BankUtility:
             account_number, account_pin = self.askAccountNumAndPin()
             user_account = self.userIsConfirmed(account_number, account_pin)
             if user_account:
-                  coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n").upper()
+                  coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n")
                         
                   deposit_amt = self.collector.parseChange(coins)
                   user_account.deposit(deposit_amt)
