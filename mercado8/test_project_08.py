@@ -1,7 +1,7 @@
-from classes import BankManager
+from classes import BankManager, Account
 import unittest
 
-# tests to check the functions' functionality
+# tests to check the methods' functionality
 class TestBankManager(unittest.TestCase): 
     
     # 3 test cases for parseChange method
@@ -37,26 +37,29 @@ class TestBankManager(unittest.TestCase):
        
         
     # 2 unit tests for EACH: deposit, withdraw, isvalidpin in Account
-    # def test_depositValid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     deposit = 500
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.deposit(500), 500.00)
+    def test_depositValid(self):
+        # Arrange
+        program = BankManager()
+        account = Account("123456789", "nelly", "merc", "098765432", "6767")
+        # Act
+        deposit_amt = 500
+        # Assert
+        # will check if the return from the deposit method is correct
+        # answer should be equal to the amount of deposit_amt
+        self.assertEqual(account.deposit(deposit_amt), 500.00)
     
     # def test_depositInvalid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     deposit = "SFSDF"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.deposit(deposit), "Deposit amount must be a positive number")
-    
+        # Arrange
+        program = BankManager()
+        account = Account("123456789", "nelly", "merc", "098765432", "6767")
+        # Act
+        deposit_amt = -5
+        # Assert
+        # will check if the return from the deposit method is correct
+        # answer should be equal to the amount of deposit_amt
+        self.assertEqual(account.deposit(deposit_amt), False)
+        
+
     # def test_withdrawValid(self):
     #     # Arrange
     #     program = BankManager()

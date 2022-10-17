@@ -109,8 +109,12 @@ class Account:
       def deposit(self, amount): # 2 unit tests need to be implemented
             # adds the amount to the account balance and returns
             # the new account balance
-            self.setOwnerBalance += amount
-            return self.getOwnerBalance
+            if amount < 1 or isinstance(amount, str):
+                  print("Invalid amount.Try again")
+                  return False
+            else:
+                  self.setOwnerBalance += amount
+                  return self.getOwnerBalance
       
       def withdraw(self, amount): # 2 unit tests need to be implemented
             # subtracts the amount from the account balance and returns
