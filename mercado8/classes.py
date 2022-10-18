@@ -26,9 +26,11 @@ class Bank:
             # looks trough the list of account in the bank list
             # if there is an account in the list that matches the account given
             # deletes such account from the bank list
-            for stored_account in self.allbank_accounts:
-                  if stored_account == account:
-                        self.allbank_accounts.remove(account)
+            for stored_account in self.mercado_bank.allbank_accounts:
+                  if stored_account.account_num == account.account_num:
+                        self.mercado_bank.allbank_accounts.remove(account)
+                        return True
+            return False
       
       def findAccount(self, account_number): # 2 unit tests need to be implemented
             # parameter received of type: INT
@@ -36,7 +38,7 @@ class Bank:
             # if there is an account in the list that matches the account number given
             # returns the account object from the list
             # if no account matches the account number, returns "no account found"
-            for stored_account in self.allbank_accounts:
+            for stored_account in self.mercado_bank.allbank_accounts:
                   if stored_account.account_num == account_number:
                         return stored_account
                   return "Account not found"
@@ -61,8 +63,8 @@ class Account:
             self.owner_firstname = owner_fname
             self.owner_lastname = owner_lname
             self._social = ssn
-            self.pin_num = pin
-            self.balance = round(0.00, 2)
+            self.pin_num = int(pin)
+            self.balance = 0.00
      
       # getters and setters for the Account object    
       @property
@@ -120,11 +122,11 @@ class Account:
             # subtracts the amount from the account balance and returns
             # the new account balance
             # if not enough funds available, returns a string 
-            if self.getOwnerBalance > 0:
+            if self.getOwnerBalance > amount:
                   new_balance = self.getOwnerBalance - amount
                   self.setOwnerBalance = new_balance
                   return self.getOwnerBalance
-            return "not enough funds available"
+            return "Not enough funds available"
       
       def isValidPIN(self, pin): # 2 unit tests need to be implemented
             # if the pin entered matches the pin of the account
@@ -499,7 +501,7 @@ class BankUtility:
             account_number, account_pin = self.askAccountNumAndPin()
             user_account = self.userIsConfirmed(account_number, account_pin)
             if user_account:
-                  self.mercado_bank.allbank_accounts.remove(user_account)
+                  self.removeAccountFromBank(user_account)
                   print(f'Account {user_account.account_num} has been closed')
 
       def askAccountNumAndPin(self):
