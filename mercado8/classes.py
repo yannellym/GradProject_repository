@@ -60,11 +60,11 @@ class Bank:
 class Account:
       def __init__ (self, account_number, owner_fname, owner_lname, ssn, pin):
             self.account_num = account_number
-            self.owner_firstname = owner_fname
-            self.owner_lastname = owner_lname
+            self.owner_firstname = owner_fname.capitalize()
+            self.owner_lastname = owner_lname.capitalize()
             self._social = ssn
             self.pin_num = int(pin)
-            self.balance = 0.00
+            self.balance = round(0.00, 2)
      
       # getters and setters for the Account object    
       @property
@@ -159,7 +159,6 @@ class CoinCollector:
             # if coin is not a match to any value, print the message invalid coin and show the coin
             # returns the deposit amount
             coin_list = [*coins.upper()]
-            print(coin_list)
             deposit_amt = 0
             for coin in coin_list:
                   match coin:
@@ -195,7 +194,7 @@ class BankUtility:
             # will print a message and loop again
             # if number is positive, will return the number
             user_response = eval(input(prompt))
-            if not isinstance(user_response, int, float):
+            if not isinstance(user_response, (int, float)):
                   print("Deposit amount must be a positive number")
                   return False
             elif user_response <= 0:
@@ -451,21 +450,23 @@ class BankUtility:
             account_number, account_pin = self.askAccountNumAndPin()
             user_account = self.userIsConfirmed(account_number, account_pin)
             if user_account:
-                  self.withdraw_amount = int(input("Enter amount to withdraw in dollars (no cents) in multiples of $5 (limit $1,000): \n"))
-                  if self.withdraw_amount < 5 or self.withdraw_amount > 1000 or self.withdraw_amount % 5 != 0:
-                        print("Invalid amount. Try again.")
-                  elif user_account.getOwnerBalance < self.withdraw_amount:
+                  withdraw_amount = eval(input("Enter amount to withdraw in dollars (no cents) in multiples of $5 (limit $1,000): \n"))
+                  if not isinstance(withdraw_amount, int): 
+                        print("Invalid amount. here Try again.")
+                  elif user_account.getOwnerBalance < withdraw_amount:
                         print("Not enough funds. Try again.")
+                  elif int(withdraw_amount) < 5 or int(withdraw_amount) > 1000 or int(withdraw_amount) % 5 != 0:
+                        print("Invalid amount. Try again.")
                   else:
-                        twentys = math.floor(self.withdraw_amount / 20)
-                        new_amount = self.withdraw_amount - (twentys * 20)
+                        twentys = math.floor(withdraw_amount / 20)
+                        new_amount = withdraw_amount - (twentys * 20)
                         tens = math.floor(new_amount / 10)
                         new_amount -= (tens * 10)
                         fives = math.floor(new_amount / 5)
                         print(f"Number of 20-dollar bills: {twentys}")
                         print(f"Number of 10-dollar bills: {tens}")
                         print(f"Number of 5-dollar bills: {fives}")
-                        user_account.withdraw(self.withdraw_amount)
+                        user_account.withdraw(withdraw_amount)
                         print(f"New balance: ${user_account.getOwnerBalance}")
 
       def depositChange(self):
@@ -489,6 +490,7 @@ class BankUtility:
                   coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n")
                         
                   deposit_amt = self.collector.parseChange(coins)
+                  print(f"${deposit_amt} in coins deposited into account {user_account.account_num}")
                   user_account.deposit(deposit_amt)
                   print(f"New balance: ${user_account.getOwnerBalance}")
 
