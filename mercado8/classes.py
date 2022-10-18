@@ -35,7 +35,7 @@ class Bank:
             # looks trough the list of account in the bank list
             # if there is an account in the list that matches the account number given
             # returns the account object from the list
-            # if no account matches the account number, returns "no accoutn found"
+            # if no account matches the account number, returns "no account found"
             for stored_account in self.allbank_accounts:
                   if stored_account.account_num == account_number:
                         return stored_account
@@ -62,7 +62,7 @@ class Account:
             self.owner_lastname = owner_lname
             self._social = ssn
             self.pin_num = pin
-            self.balance = 0.00
+            self.balance = round(0.00, 2)
      
       # getters and setters for the Account object    
       @property
@@ -193,7 +193,7 @@ class BankUtility:
             # will print a message and loop again
             # if number is positive, will return the number
             user_response = eval(input(prompt))
-            if not isinstance(user_response, int):
+            if not isinstance(user_response, int, float):
                   print("Deposit amount must be a positive number")
                   return False
             elif user_response <= 0:
@@ -206,7 +206,7 @@ class BankUtility:
             # parameters received of type: INT
             # takes in the min and max value and generates a random integer between these two numbers (both inclusive)
             # returns the random integer 
-            ran_num = random.randint(min, max + 1)
+            ran_num = random.randint(min, max)
             return ran_num
       
       def convertFromDollarsToCents(self, amount):        # needs 2 unit tests
@@ -252,7 +252,7 @@ class BankUtility:
             self.options()
             user_choice = input("Please input choice number: ")
             # valid user choices
-            choices = [1,2,3,4,5,6,7,8,9,10,11]
+            choices = [1,2,3,4,5,6,7,8,9,10,11,12]
             
             # if the user choice is a number
             # and the user choice is in the valid user choices
@@ -289,12 +289,15 @@ class BankUtility:
                                           self.closeAccount()
                                     case 10:
                                           self.addMonthlyInterest()
+                                    case 12:
+                                          print(self.mercado_bank.allbank_accounts)
                               self.menu_redirect()
             else:
                   print("Please enter a numeric character. Try again. ")
                   self.menu_redirect()
       
       def openAccount(self):
+            print("OPEN ACCOUNT")
             # call promptUserForString to ask the user for string inputs
             user_fname = self.promptUserForString("first name")
             user_lname = self.promptUserForString("last name")
@@ -308,8 +311,7 @@ class BankUtility:
             
             # if the length of the user SSN is less than 9 or greater than 9 or
             # the user SSN is not numeric, then print a message and redirect user to menu again. 
-            print(self.isNumeric(user_ssn))   
-             
+      
             if len(user_ssn) != 9 or not self.isNumeric(user_ssn):
                   print("Social Security number must be 9 digits and numeric. Try again.")
                   self.menu_redirect()
@@ -320,10 +322,6 @@ class BankUtility:
             # if the account number is already in the bank's account list
             # generate another account number
             if account_num in self.mercado_bank.allbank_accounts:
-                  account_num = self.randomNums(9)
-            
-            # if the length of the account number is not 9, generate a new account number
-            if len(str(account_num)) != 9:
                   account_num = self.randomNums(9)
             
             # calls the randomNums function to generate 4 random numbers
@@ -339,7 +337,7 @@ class BankUtility:
             # returns the account information for the user
             # if the bank's account list is full, return "no more accounts available" 
             if self.addAccountToBank(new_account):
-                  print("Account creation successful!")
+                  print(" **Account creation successful! ** ")
                   return new_account.__repr__()
             else:
                   print("No more accounts available")
@@ -526,8 +524,11 @@ class BankUtility:
             # it will append the number to a res array
             # returns the array as a joined number
             res = []
-            for i in range(0, num):
-                  res.append(self.generateRandomInteger(0,num))
+            i = 0
+            while i != num:
+                  res.append(self.generateRandomInteger(0,9))
+                  i += 1
+            
             return int("".join(map(str, res)))
       
       def userIsConfirmed(self, account_number, account_pin):
@@ -542,8 +543,8 @@ class BankUtility:
                               return account
                         else:
                               print("Invalid PIN number")
-                  else:
-                        print("Account not found for account number: %d" % account_number)    
+            
+            print("Account not found for account number: %d" % account_number)    
             return False
       
       
@@ -599,6 +600,8 @@ class BankManager(Bank, Account, CoinCollector, BankUtility):
       
       def __init__(self): 
             super().__init__()
+            # self.mercado_bank = Bank()
+            # self.collector = CoinCollector() 
             
       def initialize(self):
             print(logo)
