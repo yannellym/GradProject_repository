@@ -63,12 +63,12 @@ class Bank:
 
 class Account:
       def __init__ (self, account_number, owner_fname, owner_lname, ssn, pin):
-            self.account_num = account_number
-            self.owner_firstname = owner_fname.capitalize()
-            self.owner_lastname = owner_lname.capitalize()
-            self._social = ssn
-            self.pin_num = int(pin)
-            self.balance = round(0.00, 2)
+            self.account_num = account_number # INT
+            self.owner_firstname = owner_fname.capitalize() # STR
+            self.owner_lastname = owner_lname.capitalize() # STR
+            self._social = ssn # STR
+            self.pin_num = int(pin) # INT
+            self.balance = round(0.00, 2) # FLOAT
      
       # getters and setters for the Account object    
       @property
@@ -330,7 +330,7 @@ class BankUtility:
                   self.menu_redirect()
 
             # calls the randomNums function to generate 9 random numbers
-            account_num = self.randomNums(9)
+            account_num = self.randomNums(8)
             
             # if the account number is already in the bank's account list
             # generate another account number
@@ -533,7 +533,7 @@ class BankUtility:
             else:
                   return int(account_number), int(account_pin)
       
-      def randomNums(self,num):
+      def randomNums(self, num):
             # loops num amount of times
             # each time, it will call the method generaterandominterger from the bank Utility class
             # it will pass in two numbers, 0 and num
@@ -542,7 +542,7 @@ class BankUtility:
             res = []
             i = 0
             while i != num:
-                  res.append(self.generateRandomInteger(0,9))
+                  res.append(self.generateRandomInteger(1,9))
                   i += 1
             
             return int("".join(map(str, res)))
