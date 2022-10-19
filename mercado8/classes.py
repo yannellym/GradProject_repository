@@ -222,8 +222,12 @@ class BankUtility:
             # takes in a float and converts it to string
             # will remove the dots in the string
             # return the string as a number 
+            if isinstance(amount, str):
+                  return False
+            
             new_amount = str(amount).replace(".", "")
-            return int(new_amount)
+            new_amount = int(new_amount) * 100
+            return new_amount
       
       def isNumeric(self, numberToCheck): # needs 2 unit tests
             # if the numberToCheck is a number, returns True

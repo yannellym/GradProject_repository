@@ -114,25 +114,27 @@ class TestBankManager(unittest.TestCase):
         # Arrange
         program = BankManager()
         new_account = Account("987654321", "nelly", "merc", "198765432", "6767")
-        print(program.allbank_accounts)
         # Act
         # Assert
         # will check if the return from the addAccounttobank method is correct
         # answer should be equal True if valid and False if not
         self.assertEqual(program.addAccountToBank(new_account), True)
     
-    # def test_addAccounToBankInvalid(self):
-    #     # Arrange
-    #     new_program = BankManager()
-    #     account = Account("123456787", "nelly", "merc", "098765432", "6767")
+    def test_addAccounToBankInvalid(self):
+        # Arrange
+        new_program = BankManager()
+        print("accounts", new_program.allbank_accounts)
         
-    #     for i in range(100):
-    #         new_program.mercado_bank.allbank_accounts.append(i)
-    #     # Act
-    #     # Assert
-    #     # will check if the return from the addAccounttobank method is correct
-    #     # answer should be equal True if valid and False if not
-    #     self.assertEqual(new_program.addAccountToBank(account), False)
+        #will add 100 accounts to the bank's account list
+        for i in range(100):
+            account = Account(f"12345674{i}", "nelly", "merc", "098765432", "6767")
+            new_program.allbank_accounts.append(account)
+        # Act
+        print("new accounts", new_program.allbank_accounts)
+        # Assert
+        # will check if we can add anothe account to the bank,
+        # this should return false as there are already 100 accounts in the bank
+        self.assertEqual(new_program.addAccountToBank(account), False)
         
     def test_removeAccountFromBankValid(self):
         # Arrange
@@ -165,7 +167,6 @@ class TestBankManager(unittest.TestCase):
         # Act
         new_account = Account("987654321", "nelly", "merc", "198765432", "6767")
         program.allbank_accounts.append(new_account)
-        print(program.allbank_accounts)
         # Assert
         # will check if the return from the findAccount method is correct
         # answer should be equal the new_account created
@@ -187,7 +188,6 @@ class TestBankManager(unittest.TestCase):
         # Act
         rate = 1.25
         account = Account("987654321", "nelly", "merc", "198765432", "6767")
-        print(program.allbank_accounts)
         # Assert
         # will check if the interest was added to all of the account
         # answer should be equal to True
@@ -200,7 +200,6 @@ class TestBankManager(unittest.TestCase):
         rate = 1.25
         account = Account("147654329", "Verma", "Zoe", "198465432", "6767")
         program.allbank_accounts.append(account)
-        print(program.allbank_accounts)
         # Assert
         # will check if the interest was added to all of the account
         # answer should be equal to true
@@ -228,37 +227,40 @@ class TestBankManager(unittest.TestCase):
         # answer should be equal to False
         self.assertEqual(program.isNumeric(numberToCheck), False)
     
-    # def test_rconvertFromDollarsToCentsValid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     program.deposit(500)
-    #     withdraw_amt = 400
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.withdraw(withdraw_amt), 100)
-    
-    # def test_convertFromDollarsToCentsInvalid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     coins = "lllAaTi"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.parseChange(coins), 0)
-    
-    def test_generateRandomIntegerValid(self):
+    def test_rconvertFromDollarsToCentsValid(self):
         # Arrange
         program = BankManager()
         # Act
-        min = 1
-        max = 2
+        amt = 500
         # Assert
-        # will check if the return from the generateRandomInteger method return 1 or 2
-        # answer should be equal to either 1 or 2
-        self.assertEqual(program.generateRandomInteger(min, max), 1 or 2)
+        # will take in a float number presenting dollars 
+        # will conver it from dollars to cents
+        # result should equal the amt times 100
+        self.assertEqual(program.convertFromDollarsToCents(amt), 50000)
+    
+    def test_convertFromDollarsToCentsInvalid(self):
+        # Arrange
+        program = BankManager()
+        # Act
+        amt = "Five hundred"
+        # Assert
+        # will take in a float number presenting dollars 
+        # will conver it from dollars to cents
+        # result should equal the amt times 100
+        self.assertEqual(program.convertFromDollarsToCents(amt), False)
+    
+    # def test_generateRandomIntegerValid(self):
+    #     # Arrange
+    #     program = BankManager()
+    #     # Act
+    #     min = 0
+    #     max = 2
+    #     valid_values = [0,1]
+    #     # Assert
+    #     # will check if the return from the generateRandomInteger method return 1 or 2
+    #     # answer should be equal to either 1 or 2
+    #     self.assertEqual(program.generateRandomInteger(min, max), )
+    
     def test_generateRandomIntegerInvalid(self):
         # Arrange
         program = BankManager()
