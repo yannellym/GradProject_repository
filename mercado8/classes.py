@@ -15,8 +15,8 @@ class Bank:
             # the list length is less than the number of accounts supported
             # returns True if the account is added to the allbank_accounts list
             # print a message if the account is not added and returns False
-            if len(self.mercado_bank.allbank_accounts) < self.mercado_bank.numaccounts_supported:
-                  self.mercado_bank.allbank_accounts.append(account)
+            if len(self.allbank_accounts) < self.numaccounts_supported:
+                  self.allbank_accounts.append(account)
                   return True
             else:
                   return False
@@ -26,9 +26,9 @@ class Bank:
             # looks trough the list of account in the bank list
             # if there is an account in the list that matches the account given
             # deletes such account from the bank list
-            for stored_account in self.mercado_bank.allbank_accounts:
+            for stored_account in self.allbank_accounts:
                   if stored_account.account_num == account.account_num:
-                        self.mercado_bank.allbank_accounts.remove(account)
+                        self.allbank_accounts.remove(account)
                         return True
             return False
       
@@ -38,12 +38,12 @@ class Bank:
             # if there is an account in the list that matches the account number given
             # returns the account object from the list
             # if no account matches the account number, returns "no account found"
-            for stored_account in self.mercado_bank.allbank_accounts:
+            for stored_account in self.allbank_accounts:
                   if stored_account.account_num == account_number:
                         return stored_account
-                  return "Account not found"
+            return "Account not found"
       
-      def addMonthlyInterest(self): # 2 unit tests need to be implemented
+      def addMonthlyInterest(self, annual_rate): # 2 unit tests need to be implemented
             # look through all of the account in the bank's account list
             # calculate the monthly rate by multiplying the account balance times the annual rate
             # then, divide that by twelve
@@ -51,11 +51,15 @@ class Bank:
             # save the above value into a variable named monthly rate
             # add this amount to the account's balance
             # display the account balance as a string
-            annual_rate = float(input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n"))
-            for account in self.mercado_bank.allbank_accounts:
-                  monthly_rate = int(((annual_rate  * account.getOwnerBalance) / 12)) / 100
-                  account.setOwnerBalance = account.getOwnerBalance + monthly_rate
-                  print(f"Deposited interest: {monthly_rate} into account number: {account.account_num}, new balance: ${round(account.getOwnerBalance, 2)}")
+            if not isinstance(annual_rate, float):
+                  print("Please only enter a rate in form of a decimal")
+                  return False
+            else:
+                  for account in self.allbank_accounts:
+                        monthly_rate = int(((annual_rate  * account.getOwnerBalance) / 12)) / 100
+                        account.setOwnerBalance = account.getOwnerBalance + monthly_rate
+                        print(f"Deposited interest: {monthly_rate} into account number: {account.account_num}, new balance: ${round(account.getOwnerBalance, 2)}")
+                  return True
 
 class Account:
       def __init__ (self, account_number, owner_fname, owner_lname, ssn, pin):
@@ -207,8 +211,11 @@ class BankUtility:
             # parameters received of type: INT
             # takes in the min and max value and generates a random integer between these two numbers (both inclusive)
             # returns the random integer 
-            ran_num = random.randint(min, max)
-            return ran_num
+            if not isinstance(min, int) or not isinstance(max, int):
+                  return False
+            else:
+                  ran_num = random.randint(min, max)
+                  return ran_num
       
       def convertFromDollarsToCents(self, amount):        # needs 2 unit tests
             # parameter received of type: FLOAT  
@@ -289,9 +296,10 @@ class BankUtility:
                                     case 9:
                                           self.closeAccount()
                                     case 10:
-                                          self.addMonthlyInterest()
+                                          annual_rate = eval(input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n"))
+                                          self.addMonthlyInterest(annual_rate)
                                     case 12:
-                                          print(self.mercado_bank.allbank_accounts)
+                                          print(self.allbank_accounts)
                               self.menu_redirect()
             else:
                   print("Please enter a numeric character. Try again. ")
@@ -322,7 +330,7 @@ class BankUtility:
             
             # if the account number is already in the bank's account list
             # generate another account number
-            if account_num in self.mercado_bank.allbank_accounts:
+            if account_num in self.allbank_accounts:
                   account_num = self.randomNums(9)
             
             # calls the randomNums function to generate 4 random numbers
@@ -541,7 +549,7 @@ class BankUtility:
             # then, check if that account's pin equals the pin the user gave
             # if true, then return the account object
             # else, print the error message and return False
-            for account in self.mercado_bank.allbank_accounts:
+            for account in self.allbank_accounts:
                   if account.account_num == account_number:
                         if account.getOwnerPin == account_pin:
                               return account

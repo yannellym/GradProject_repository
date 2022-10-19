@@ -1,4 +1,4 @@
-from classes import BankManager, Account
+from classes import BankManager, Account, Bank
 import unittest
 
 # tests to check the methods' functionality
@@ -109,36 +109,37 @@ class TestBankManager(unittest.TestCase):
         self.assertEqual(account.isValidPIN(pin), False)
     
         
-    # 2 unit tests for EACH: addAccounToBank, removeAccountFromBank, findAccount, addMonthly interest in Bank
+    #2 unit tests for EACH: addAccounToBank, removeAccountFromBank, findAccount, addMonthly interest in Bank
     def test_addAccounToBankValid(self):
         # Arrange
         program = BankManager()
-        account = Account("987654321", "nelly", "merc", "098765432", "6767")
+        new_account = Account("987654321", "nelly", "merc", "198765432", "6767")
+        print(program.allbank_accounts)
         # Act
         # Assert
         # will check if the return from the addAccounttobank method is correct
         # answer should be equal True if valid and False if not
-        self.assertEqual(program.addAccountToBank(account), True)
+        self.assertEqual(program.addAccountToBank(new_account), True)
     
-    def test_addAccounToBankInvalid(self):
-        # Arrange
-        program = BankManager()
-        account = Account("123456787", "nelly", "merc", "098765432", "6767")
+    # def test_addAccounToBankInvalid(self):
+    #     # Arrange
+    #     new_program = BankManager()
+    #     account = Account("123456787", "nelly", "merc", "098765432", "6767")
         
-        for i in range(100):
-            program.mercado_bank.allbank_accounts.append(account)
-        # Act
-        # Assert
-        # will check if the return from the addAccounttobank method is correct
-        # answer should be equal True if valid and False if not
-        self.assertEqual(program.addAccountToBank(account), False)
+    #     for i in range(100):
+    #         new_program.mercado_bank.allbank_accounts.append(i)
+    #     # Act
+    #     # Assert
+    #     # will check if the return from the addAccounttobank method is correct
+    #     # answer should be equal True if valid and False if not
+    #     self.assertEqual(new_program.addAccountToBank(account), False)
         
     def test_removeAccountFromBankValid(self):
         # Arrange
         program = BankManager()
         account = Account("123456787", "nelly", "merc", "098765432", "6767")
         
-        program.mercado_bank.allbank_accounts.append(account)
+        program.allbank_accounts.append(account)
         # Act
         # Assert
         # will check if the return from the removeAccountFromBank method is correct
@@ -158,67 +159,74 @@ class TestBankManager(unittest.TestCase):
         # answer should be equal True if valid and False if not
         self.assertEqual(program.removeAccountFromBank(account2), False)
     
-    # def test_findAccountValid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     coins = "lllAaTi"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.parseChange(coins), 0)
+    def test_findAccountValid(self):
+        # Arrange
+        program = BankManager()
+        # Act
+        new_account = Account("987654321", "nelly", "merc", "198765432", "6767")
+        program.allbank_accounts.append(new_account)
+        print(program.allbank_accounts)
+        # Assert
+        # will check if the return from the findAccount method is correct
+        # answer should be equal the new_account created
+        self.assertEqual(program.findAccount(new_account.account_num), new_account)
     
-    # def test_findAccountInvalid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     coins = "lllAaTi"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.parseChange(coins), 0)
+    def test_findAccountInvalid(self):
+        # Arrange
+        program = BankManager()
+        # Act
+        new_account = Account("8787865er67", "david", "luz", "15655432", "6867")
+        # Assert
+        # will check if the account is not in the bank
+        # answer should be equal to account not found
+        self.assertEqual(program.findAccount(new_account.account_num), "Account not found")
     
-    # def test_addMonthlyInterestValid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     coins = "lllAaTi"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.parseChange(coins), 0)
+    def test_addMonthlyInterestValid(self):
+        # Arrange
+        program = BankManager()
+        # Act
+        rate = 1.25
+        account = Account("987654321", "nelly", "merc", "198765432", "6767")
+        print(program.allbank_accounts)
+        # Assert
+        # will check if the interest was added to all of the account
+        # answer should be equal to True
+        self.assertEqual(program.addMonthlyInterest(rate), True)
     
-    # def test_addMonthlyInterestInvalid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     coins = "lllAaTi"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.parseChange(coins), 0)
+    def test_addMonthlyInterestAlsoValid(self):
+       # Arrange
+        program = BankManager()
+        # Act
+        rate = 1.25
+        account = Account("147654329", "Verma", "Zoe", "198465432", "6767")
+        program.allbank_accounts.append(account)
+        print(program.allbank_accounts)
+        # Assert
+        # will check if the interest was added to all of the account
+        # answer should be equal to true
+        self.assertEqual(program.addMonthlyInterest(rate), True)
     
     
-     # 2 unit tests for EACH: aisNumeric, convertFromDollarsToCents, generateRandomInteger in BankUtility
-    # def test_isNumericValid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     deposit = 500
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.deposit(500), 500.00)
+     # 2 unit tests for EACH: isNumeric, convertFromDollarsToCents, generateRandomInteger in BankUtility
+    def test_isNumericValid(self):
+        # Arrange
+        program = BankManager()
+        # Act
+        numberToCheck = '500'
+        # Assert
+        # will check if the string numberToCheck is a valid number
+        # answer should be equal to True
+        self.assertEqual(program.isNumeric(numberToCheck), True)
     
-    # def test_isNumericInvalid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     deposit = "SFSDF"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.deposit(deposit), "Deposit amount must be a positive number")
+    def test_isNumericInvalid(self):
+        # Arrange
+        program = BankManager()
+        # Act
+        numberToCheck = 'five hundred dollars'
+        # Assert
+        # will check if the string numberToCheck is a valid number
+        # answer should be equal to False
+        self.assertEqual(program.isNumeric(numberToCheck), False)
     
     # def test_rconvertFromDollarsToCentsValid(self):
     #     # Arrange
@@ -241,25 +249,26 @@ class TestBankManager(unittest.TestCase):
     #     # answer should be equal to the amount of valid coins
     #     self.assertEqual(program.parseChange(coins), 0)
     
-    # def test_generateRandomIntegerValid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     coins = "lllAaTi"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.parseChange(coins), 0)
-    
-    # def test_generateRandomIntegerInvalid(self):
-    #     # Arrange
-    #     program = BankManager()
-    #     # Act
-    #     coins = "lllAaTi"
-    #     # Assert
-    #     # will check if the return from the parsechange method is correct
-    #     # answer should be equal to the amount of valid coins
-    #     self.assertEqual(program.parseChange(coins), 0)
+    def test_generateRandomIntegerValid(self):
+        # Arrange
+        program = BankManager()
+        # Act
+        min = 1
+        max = 2
+        # Assert
+        # will check if the return from the generateRandomInteger method return 1 or 2
+        # answer should be equal to either 1 or 2
+        self.assertEqual(program.generateRandomInteger(min, max), 1 or 2)
+    def test_generateRandomIntegerInvalid(self):
+        # Arrange
+        program = BankManager()
+        # Act
+        min = 1
+        max = "32"
+        # Assert
+        # will check if the return from the generateRandomInteger method return 1 or 2
+        # answer should be equal to False
+        self.assertEqual(program.generateRandomInteger(min, max), False)
     
     
 if __name__ == '__main__':
