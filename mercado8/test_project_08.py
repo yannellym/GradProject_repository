@@ -3,7 +3,6 @@ import unittest
 
 # tests to check the methods' functionality
 
-
 class TestBankManager(unittest.TestCase):
 
     # 3 test cases for parseChange method

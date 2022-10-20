@@ -115,8 +115,8 @@ class Account:
       def deposit(self, amount): # 2 unit tests need to be implemented
             # adds the amount to the account balance and returns
             # the new account balance
-            if amount < 1 or isinstance(amount, str):
-                  print("Invalid amount.Try again")
+            if amount < 0.00 or isinstance(amount, str):
+                  print("Invalid amount. Try again")
                   return False
             else:
                   self.setOwnerBalance += amount
@@ -162,24 +162,26 @@ class CoinCollector:
             # looks through each coin in the coin list and matches it with the value. Adds this value to the deposit amount
             # if coin is not a match to any value, print the message invalid coin and show the coin
             # returns the deposit amount
+            valid_coins = ['P','N','D','Q','H','W']
             coin_list = [*coins.upper()]
             deposit_amt = 0
             for coin in coin_list:
-                  match coin:
-                        case "P":
-                              deposit_amt +=  .01
-                        case "N":
-                              deposit_amt +=  .05
-                        case "D":
-                              deposit_amt +=  .10
-                        case "Q":
-                              deposit_amt +=  .25
-                        case "H":
-                              deposit_amt +=  .50
-                        case "W":
-                              deposit_amt +=  1
-                        case default:
-                              print(f"Invalid coin: {coin}")
+                  if coin in valid_coins:
+                        match coin:
+                              case "P":
+                                    deposit_amt +=  .01
+                              case "N":
+                                    deposit_amt +=  .05
+                              case "D":
+                                    deposit_amt +=  .10
+                              case "Q":
+                                    deposit_amt +=  .25
+                              case "H":
+                                    deposit_amt +=  .50
+                              case "W":
+                                    deposit_amt +=  1
+                  else:
+                        print(f"Invalid coin: {coin}")
             return deposit_amt
 class BankUtility:
       def __init__ (self):
@@ -495,16 +497,17 @@ class BankUtility:
             # call the deposit method on the account and deposit the deposit amount
             # if the above fails, print a message with either wrong account num or wrong PIN
             # redirect to menu
-            valid_coins = ["P", "N", "D", "Q", "H", "W"]
             account_number, account_pin = self.askAccountNumAndPin()
             user_account = self.userIsConfirmed(account_number, account_pin)
             if user_account:
-                  coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n")
-                        
-                  deposit_amt = self.collector.parseChange(coins)
-                  print(f"${deposit_amt} in coins deposited into account {user_account.account_num}")
-                  user_account.deposit(deposit_amt)
-                  print(f"New balance: ${user_account.getOwnerBalance}")
+                  coins = input("Deposit coins (P: penny, N: nickel, D: dime, Q: Quarter, H: half-dollar, W: whole-dollar) Ex(QPDNNDHW): \n").upper()
+                  deposit_amt = self.parseChange(coins)
+                  if deposit_amt == 0.0:
+                        print("Invalid amount. Try again")
+                  else:
+                        user_account.deposit(deposit_amt)
+                        print(f"${deposit_amt} in coins deposited into account {user_account.account_num}")
+                        print(f"New balance: ${user_account.getOwnerBalance}")
 
       def closeAccount(self):
             # set a list with the valid coin letters

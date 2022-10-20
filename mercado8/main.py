@@ -35,7 +35,6 @@ def main():
     program = BankManager()
     # initialize the program by calling its initialize method
     program.initialize()
-    
         
 # calls the function main   
 main()
