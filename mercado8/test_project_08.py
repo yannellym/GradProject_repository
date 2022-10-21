@@ -191,7 +191,7 @@ class TestBankManager(unittest.TestCase):
         # Arrange
         program = BankManager()
         # Act
-        rate = 1.25
+        rate = '1.25'
         account = Account("987654321", "nelly", "merc", "198765432", "6767")
         # Assert
         # will check if the interest was added to all of the account
@@ -202,7 +202,7 @@ class TestBankManager(unittest.TestCase):
        # Arrange
         program = BankManager()
         # Act
-        rate = 1.25
+        rate = '1.25%'
         account = Account("147654329", "Verma", "Zoe", "198465432", "6767")
         program.allbank_accounts.append(account)
         # Assert
