@@ -51,12 +51,14 @@ class Bank:
             # save the above value into a variable named monthly rate
             # add this amount to the account's balance
             # display the account balance as a string
-            if not isinstance(annual_rate, float):
+            annual_rate = annual_rate.replace("%", '') 
+            if not isinstance(eval(annual_rate), float):
                   print("Please only enter a rate in form of a decimal")
                   return False
             else:
+                  annual_rate = float(annual_rate)
                   for account in self.allbank_accounts:
-                        monthly_rate = int(((annual_rate  * account.getOwnerBalance) / 12)) / 100
+                        monthly_rate = float(((annual_rate  * account.getOwnerBalance) / 12)) / 100
                         account.setOwnerBalance = account.getOwnerBalance + monthly_rate
                         print(f"Deposited interest: {monthly_rate} into account number: {account.account_num}, new balance: ${round(account.getOwnerBalance, 2)}")
                   return True
@@ -302,7 +304,7 @@ class BankUtility:
                                     case 9:
                                           self.closeAccount()
                                     case 10:
-                                          annual_rate = eval(input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n"))
+                                          annual_rate = input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n")
                                           self.addMonthlyInterest(annual_rate)
                                     case 12:
                                           print(self.allbank_accounts)
@@ -314,9 +316,9 @@ class BankUtility:
       def openAccount(self):
             print("OPEN ACCOUNT")
             # call promptUserForString to ask the user for string inputs
-            user_fname = self.promptUserForString("first name")
-            user_lname = self.promptUserForString("last name")
-            user_ssn = self.promptUserForString("SSN (9 Digits)")
+            user_fname = self.promptUserForString("first name") # STR
+            user_lname = self.promptUserForString("last name") # STR 
+            user_ssn = self.promptUserForString("SSN (9 Digits)") # STR
             
             # if the user didnt input a name or a last name or an SSN,
             # redirect them to the menu again.
@@ -332,7 +334,7 @@ class BankUtility:
                   self.menu_redirect()
 
             # calls the randomNums function to generate 9 random numbers
-            account_num = self.randomNums(8)
+            account_num = self.randomNums(8) # cannot start with zero
             
             # if the account number is already in the bank's account list
             # generate another account number
@@ -521,20 +523,6 @@ class BankUtility:
                   self.removeAccountFromBank(user_account)
                   print(f'Account {user_account.account_num} has been closed')
 
-      def askAccountNumAndPin(self):
-            # this is a helper function that will ask for the account number and pin
-            # it will return both values which will be saved in separate variables
-            account_number = input("Please enter the account number: \n")
-            account_pin = input("Please enter the account pin: \n")
-
-            # if the account number is not numeric or the pin is not numeric
-            # print a message for th euser and redirect them to the menu again
-            # else return the account number and pin number
-            if not self.isNumeric(account_number) or not self.isNumeric(account_pin):
-                  print("Input must be numeric.")
-                  self.menu_redirect()
-            else:
-                  return int(account_number), int(account_pin)
       
       def randomNums(self, num):
             # loops num amount of times
@@ -611,11 +599,12 @@ class BankUtility:
                   else:
                         print(f"No user account for ${account_number}")
             return False
-            
       
+      def askInput(self):
+            rate = input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n")
 class BankManager(Bank, Account, CoinCollector, BankUtility): 
-      mercado_bank = Bank()
-      collector = CoinCollector() 
+      # mercado_bank = Bank()
+      # collector = CoinCollector() 
       
       def __init__(self): 
             super().__init__()
@@ -625,3 +614,18 @@ class BankManager(Bank, Account, CoinCollector, BankUtility):
       def initialize(self):
             print(logo)
             self.menu_redirect()
+      
+      def askAccountNumAndPin(self):
+            # this is a helper function that will ask for the account number and pin
+            # it will return both values which will be saved in separate variables
+            account_number = input("Please enter the account number: \n")
+            account_pin = input("Please enter the account pin: \n")
+
+            # if the account number is not numeric or the pin is not numeric
+            # print a message for th euser and redirect them to the menu again
+            # else return the account number and pin number
+            if not self.isNumeric(account_number) or not self.isNumeric(account_pin):
+                  print("Input must be numeric.")
+                  self.menu_redirect()
+            else:
+                  return int(account_number), int(account_pin)
