@@ -1,6 +1,6 @@
 from classes import BankManager
 
-''' Project 8: Final Project1
+''' Project 8: Final Project
 In this project you will tie together many of the concepts that you have learned throughout the 
 course into a unified banking application.  You will develop a program that performs many 
 common bank transactions that a bank employee or customer might perform on one or more 

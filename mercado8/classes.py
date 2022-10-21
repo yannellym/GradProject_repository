@@ -44,6 +44,7 @@ class Bank:
             return "Account not found"
       
       def addMonthlyInterest(self, annual_rate): # 2 unit tests need to be implemented
+            # paramenter received of type: STR
             # look through all of the account in the bank's account list
             # calculate the monthly rate by multiplying the account balance times the annual rate
             # then, divide that by twelve
@@ -60,7 +61,7 @@ class Bank:
                   for account in self.allbank_accounts:
                         monthly_rate = float(((annual_rate  * account.getOwnerBalance) / 12)) / 100
                         account.setOwnerBalance = account.getOwnerBalance + monthly_rate
-                        print(f"Deposited interest: {monthly_rate} into account number: {account.account_num}, new balance: ${round(account.getOwnerBalance, 2)}")
+                        print(f"Deposited interest: {round(monthly_rate,2)} into account number: {account.account_num}, new balance: ${round(account.getOwnerBalance, 2)}")
                   return True
 
 class Account:
@@ -268,7 +269,7 @@ class BankUtility:
             self.options()
             user_choice = input("Please input choice number: ")
             # valid user choices
-            choices = [1,2,3,4,5,6,7,8,9,10,11,12]
+            choices = [1,2,3,4,5,6,7,8,9,10,11]
             
             # if the user choice is a number
             # and the user choice is in the valid user choices
@@ -306,8 +307,6 @@ class BankUtility:
                                     case 10:
                                           annual_rate = input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n")
                                           self.addMonthlyInterest(annual_rate)
-                                    case 12:
-                                          print(self.allbank_accounts)
                               self.menu_redirect()
             else:
                   print("Please enter a numeric character. Try again. ")
@@ -432,7 +431,7 @@ class BankUtility:
                               print(f"New balance in account:{user_account.account_num} is: ${user_account.getOwnerBalance}")
                               print(f"New balance in account:{transferingto_account.account_num} is: ${transferingto_account.getOwnerBalance}")
                               
-      def withdrawFromAccount(self): # REFACTOR
+      def withdrawFromAccount(self):
             # search through the bank's list of accounts
             # if the account number equals the account number given by the user
             # if the account's pin number equals the pin number given by the user
@@ -600,8 +599,6 @@ class BankUtility:
                         print(f"No user account for ${account_number}")
             return False
       
-      def askInput(self):
-            rate = input("Enter annual rate percentage (e.g 2.75 for 2.75%): \n")
 class BankManager(Bank, Account, CoinCollector, BankUtility): 
       # mercado_bank = Bank()
       # collector = CoinCollector() 
