@@ -295,6 +295,7 @@ class BankUtility:
                   self.menu_redirect()
       
       def openAccount(self):
+            print("OPEN ACCOUNT")
             # call promptUserForString to ask the user for string inputs
             user_fname = self.promptUserForString("first name")
             user_lname = self.promptUserForString("last name")
