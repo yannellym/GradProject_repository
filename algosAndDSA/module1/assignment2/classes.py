@@ -8,7 +8,7 @@ class LinkedList:
         self.head = None
     
     def setList(self, store):
-        # Looks through each item in the store and assigns it to a node in the linked list
+        '''Looks through each item in the store and assigns it to a node in the linked list.'''
         first_node = Node(store[0])
         second_node = Node(store[1])
         third_node = Node(store[2])
@@ -25,9 +25,11 @@ class LinkedList:
         fourteen_node = Node(store[13])
         fifteen_node = Node(store[14])
         sixteen_node = Node(store[15])
-        # assigns first node to the head of the list
+        
+        '''assigns first node to the head of the list.'''
         self.head = first_node
-        #assigns rest of the nodes to connect to each other
+        
+        '''assigns rest of the nodes to connect to each other.'''
         first_node.next = second_node
         second_node.next = third_node
         third_node.next = fourth_node
@@ -64,15 +66,17 @@ class LinkedList:
         return self.head
 
     def addNode(self, current):
+        '''Adds a new node to the list.'''
         current = current.next
                 
-    def removeNode(self, prev, current):
-        prev.next = current.next
+    def removeNode(self, current):
+        '''Remove the node if it is already in the list.'''
+        current.next = current.next.next
         print("Node was removed from the list")
       
     
     def removeOrInsert(self, target):
-        prev = None
+        '''Removes the node if it is already in the list or add it if it is not in the list.'''
         current = self.head
         
         # handles the edge case where the target node would be the first node
@@ -81,31 +85,40 @@ class LinkedList:
             print("** Replaced head **")
             self.visualizeList()
             return 
+        # handles the edge case where the target node is less than the first node
+        if target < current.data:
+            self.head = Node(target)
+            self.head.next = current
+            current = current.next
+            print("** Replaced head **")
+            self.visualizeList()
+            return
         
         while current:       
-            # if the current node equals the target node, remove it    
-            if current.data == target: # works
-                self.removeNode(prev, current)
-                # print the current linked list
-                self.visualizeList()
-                return
             if current.next:
+                # if the next node is less than the target node, 
+                # make the current node equal the next node
                 while current.next.data < target:
                     current = current.next
+                    
+                # if the current node equals the target node, remove it
+                print("values", current.next.data, target)   
+                if current.next.data == target: 
+                    current.next = current.next.next
+                    self.removeNode(current)
+                    # print the current linked list
+                    self.visualizeList()
+                    return
+                # add a new node with the target value,
+                # make the new node's next equal to the current's next
+                # make the current's next equal to the new node 
+                # print and visual the linked list
                 newNode = Node(target)
                 newNode.next = current.next
                 current.next = newNode
                 print("New node was added to the list")
                 self.visualizeList()
-                return self.head
-                
-            
-            prev = current
-            current = current.next
-           
-                
-            print("new iter")
-        
+                return self.head       
             
             
     

@@ -38,33 +38,3 @@ def lookThroughFile(store):
         store.sort()
 
 main()
-
-#   prev = None
-#     current = l_list.head
-#     while current:
-#         if current.data == target:
-#             prev.next = current.next
-#             print("Node was removed from the list")
-#             break
-#         prev = current
-#         current = current.next
-#     for node in l_list:
-#         print(node.data)  
-        
-#     current = l_list.head
-    
-#     # handles the edge case where the target node would be the first node
-#     if current is None or current.data >= target:
-#         newNode = Node(target)
-#         newNode.next = l_list.head
-#         head = newNode
-#         return head
-    
-#     while current.next and current.next.data < target:
-#         current = current.next
-#     newNode = Node(target)
-#     newNode.next = current.next
-#     current.next = newNode
-#     print("New node was added to the list")
-#     for node in l_list:
-#         print(node.data)
