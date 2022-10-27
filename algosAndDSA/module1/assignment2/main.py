@@ -1,4 +1,4 @@
-from classes import Node, LinkedList
+from classes import LinkedList
 
 '''
 Create a program that reads a list of Integer numbers from a file named data.txt (create your own file with about 16 numbers - no repetitions and one number per line)
@@ -17,14 +17,26 @@ def main():
     store = []
     # looks through file and adds contents to store
     lookThroughFile(store)
-    # references the linked list
+    # Makes sure that the last entry in the store is None
+    store.append(None)
+    
+    # references the linked list class
+    print("Creating link list...")
     L = LinkedList()
+    
     # sets and connects the nodes in the linked list
-    L.setList(store)
+    print("Adding array elements to list...")
+    for i in range(len(store)-1):
+        L.insertNode(store, i)
+        
+    # prints out a visual of the linked list L
+    print(L.visualizeList())
+        
     # asks users to input a number and sets this as the target
     target = int(input("please input number to check in the linked list: \n"))
+    
     # removes or inserts the target node in the linked list
-    L.removeOrInsert(target)
+    print(L.removeOrInsert(target))
     
 
 # Helper functions for main11
@@ -34,7 +46,9 @@ def lookThroughFile(store):
         # for each line in  data.txt, append it to the store list as an integer without any trailing spaces
         for line in f:
             store.append(int(line.strip()))
+        print("adding file contents to the array...")
         # sort the store list
+        print("sorting array...")
         store.sort()
-
+        
 main()
