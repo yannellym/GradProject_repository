@@ -48,7 +48,13 @@ class LinkedList:
         '''Remove the node if it is already in the list.'''
         current.next = current.next.next
         print("Node was removed from the list")
-      
+    
+    def replaceTail(self, nextone, target):
+        '''Replaces the tail of the list if the target is less than the tail'''
+        nextone.next = Node(target)
+        nextone.next.next = None
+        print("New node was added to the list")
+          
     
     def removeOrInsert(self, target):
         '''Removes the node if it is already in the list or add it if it is not in the list.'''
@@ -73,12 +79,8 @@ class LinkedList:
             while current.next.data < target:
                 current = current.next
                 if current.next is None:
-                    current.next = Node(target)
-                    current.next.next = None
-                    print("New node was added to the list")
+                    self.replaceTail(current, target)
                     return self.visualizeList()
-                    
-                
             # if the current node equals the target node, remove it
             #print("values", current.next.data, target)   
             if current.next.data == target: 

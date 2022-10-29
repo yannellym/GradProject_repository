@@ -33,10 +33,13 @@ def main():
     print(L.visualizeList())
         
     # asks users to input a number and sets this as the target
-    target = int(input("please input number to check in the linked list: \n"))
+    target = input("please input number to check in the linked list: \n")
     
+    # prompts the user to enter a numeric value if the target is a word or a decimal
+    if not target.isdigit():
+       target = input("please input a numeric character to check in the linked list: \n")
     # removes or inserts the target node in the linked list
-    print(L.removeOrInsert(target))
+    print(L.removeOrInsert(int(target)))
     
 
 # Helper functions for main11
