@@ -32,6 +32,13 @@ class LinkedList:
         current.next = None
         self.head = next
         return self.head
+    
+    def replaceTail(self, current, target):
+        '''Replaces the tail of the list if the target is less than the tail'''
+        current.next = Node(target)
+        current.next.next = None
+        print("New node was added to the list")
+        return self.visualizeList()
 
     def addNode(self, current):
         '''Adds a new node to the list.'''
@@ -46,7 +53,7 @@ class LinkedList:
     def removeOrInsert(self, target):
         '''Removes the node if it is already in the list or add it if it is not in the list.'''
         current = self.head
-        
+   
         # handles the edge case where the target node would be the first node
         if current is None or current.data == target:
             self.replaceHead(current) 
@@ -59,26 +66,33 @@ class LinkedList:
             current = current.next
             print("** Replaced head **")
             return self.visualizeList()
-        
-        while current: 
-            if current.next:
-                # if the next node is less than the target node, 
-                # make the current node equal the next node
-                while current.next.data < target:
-                    current = current.next
-                    
-                # if the current node equals the target node, remove it
-                #print("values", current.next.data, target)   
-                if current.next.data == target: 
-                    self.removeNode(current)
-                    # print the current linked list
+       
+        while current.next: 
+            # if the next node is less than the target node, 
+            # make the current node equal the next node
+            while current.next.data < target:
+                current = current.next
+                if current.next is None:
+                    current.next = Node(target)
+                    current.next.next = None
+                    print("New node was added to the list")
                     return self.visualizeList()
-                # add a new node with the target value,
-                # make the new node's next equal to the current's next
-                # make the current's next equal to the new node 
-                # print and visual the linked list
-                newNode = Node(target)
-                newNode.next = current.next
-                current.next = newNode
-                print("New node was added to the list")
+                    
+                
+            # if the current node equals the target node, remove it
+            #print("values", current.next.data, target)   
+            if current.next.data == target: 
+                self.removeNode(current)
+                # print the current linked list
                 return self.visualizeList()
+            # add a new node with the target value,
+            # make the new node's next equal to the current's next
+            # make the current's next equal to the new node 
+            # print and visual the linked list
+            newNode = Node(target)
+            newNode.next = current.next
+            current.next = newNode
+            print("New node was added to the list")
+            return self.visualizeList()
+            
+            
