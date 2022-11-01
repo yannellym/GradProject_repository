@@ -42,7 +42,7 @@ def main():
     print(L.removeOrInsert(int(target)))
     
 
-# Helper functions for main11
+# Helper functions for main
 def lookThroughFile(store): 
     # reads a list of Integer numbers from a file named data.txt
     with open('algosAndDSA/module1/assignment2/data.txt', 'r') as f:
