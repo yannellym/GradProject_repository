@@ -10,8 +10,6 @@ def main():
     # looks through file and adds contents to store
     lookThroughFile(store)
     removeFromStack()
-    print(store)
-    print("Stack is now empty.")
         
 
 
@@ -39,37 +37,44 @@ def askUser():
     if not number_chosen.isdigit():
         print("Number must be an integer")
         askUser()
+        
     elif int(number_chosen) > 4 or int(number_chosen) < 1:
         print("Number must be between 1 and 4.")
         askUser()
-    else:
-        return int(number_chosen)
+        
+   
+    print("returning an integer", number_chosen)
+    return int(number_chosen)
     
-def popItem(chosen_number):
+def popItem(chosen_num):
     '''Will receive an amount of users to pop from the list
     Parameters:
     - number_chosen: INT number of users to pop from the list
     Return:
     
     '''
-    if chosen_number > len(store):
+    global store
+    
+    if chosen_num > len(store):
         print(f"Current stack length is {len(store)}. Please choose a different number to remove")
-        return askUser()
+        
     
-    for i in range(chosen_number):
-        store.pop()
-    
-    if len(store) > 0:      
+    elif chosen_num == len(store):
+        store = []
+        print(f"Stack is now empty: {store} ")
+        return False
+    else: 
+        if chosen_num < len(store):
+            for i in range(chosen_num):
+                store.pop()
         print(f"New stack is: {store} ")
-        return True
-    print("returning false")
-    return False
+    return True
+    
         
 def removeFromStack():
-    
     # asks user for a number and sets it in a variabled called chosen_number
-    chosen_number = askUser()
-    continue_pop = popItem(chosen_number)
+    chosen_num = askUser()
+    continue_pop = popItem(chosen_num)
     while continue_pop:
         removeFromStack()
         break
