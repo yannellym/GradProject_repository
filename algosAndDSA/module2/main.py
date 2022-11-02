@@ -8,10 +8,12 @@ The program stops as the stack becomes empty.
 def main():
     store = Stack()
     fileName = input("Enter the file name with people info: ")
+    # object containing the information extract from the chosen file
     everyone = readPeople(fileName)
     printPeople(everyone)
     # looks through file and adds contents to store
     lookThroughFile(everyone, store)
+    # takes the action of popping from the stack or prompting the user again
     store.takeAction()
         
 # Helper functions for main
