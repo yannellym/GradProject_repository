@@ -88,3 +88,35 @@ class Tree:
         print("==========")
         __visit__(self.root, 1)
         print("==========")
+    
+    def getArr(self):
+        arr = []
+        def __visit__(n, h):
+            if (n != None):
+                arr.append(n.data)
+                __visit__(n.left, h+1)
+                __visit__(n.right, h+1)
+                
+        __visit__(self.root, 1)
+        return arr
+            
+        
+    def bfs(self):
+        
+        if self.root is None:
+            return
+        queue = [self.root]
+        stack = []
+        while len(queue) > 0:
+            cur_node = queue.pop(0)
+            stack.append(cur_node.data)
+            if cur_node.left is not None:
+                queue.append(cur_node.left)
+
+            if cur_node.right is not None:
+                queue.append(cur_node.right)
+        return stack
+
+class Graph:
+    def __init__(self):
+        pass
