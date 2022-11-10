@@ -1,6 +1,5 @@
 from classes import Tree
 
-
 def main():
     tree = Tree()
     fileName = input("Please enter the file path: ")
@@ -8,33 +7,16 @@ def main():
     numbers = readNumbers(fileName)
     for digit in numbers:
         tree.insert(digit)
-        
-    #tree.printInorder()
-    tree.printPreorder()
     
-    #print("66 is in the tree:", tree.check(66))
-    # print("99 is in the tree:", tree.check(99))
-    # print("8 is in the tree:", tree.check(8))
-    # print("72 is in the tree:", tree.check(72))
-    # tree.printPostorder()
+    # calls the getArr method which will return an array containing
+    # the values of the tree in a preorder manner
     tree_arr = tree.getArr()
-    tree_size = len(tree_arr)
-    # print(tree_arr)
-            
-    matrix = [[0] * tree_size for i in range(tree_size)]
+    # create the matrix that we will be using to input the values
+    matrix = tree.createMatrix()
     
-    for i in range(tree_size - 1):
-        if i == 0:
-            matrix[i][i+1] = tree_arr[i] - tree_arr[i+1]
-            matrix[i][tree_size - 1] = abs(tree_arr[-1] - tree_arr[i])
-        else:
-            matrix[i][i+1] = tree_arr[i] - tree_arr[i+1]
-            matrix[i][tree_size - 1] = abs(tree_arr[-i + 0] - tree_arr[i])
-                   
-    for row in matrix:
-        print(row)
-        print('\n')
-        
+    tree.extractValues(tree_arr, matrix)  
+    tree.printMatrix(matrix)
+     
         
 # Helper functions for main
 def readNumbers(fileName):
@@ -51,11 +33,5 @@ def readNumbers(fileName):
     for line in infile:
         nums.append(int(line))
     return nums
-
-def adjacency_matrix(tree): 
-    adj = [[0 for node in tree.data] for node in tree.data]
-    for edge in tree.left:
-        node1, node2 = edge[0], edge[1]
-        
     
 main()
