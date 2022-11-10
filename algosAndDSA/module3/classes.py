@@ -103,6 +103,11 @@ class Tree:
         return arr
       
     def extractValues(self, tree_arr, matrix):
+        '''Looks through each node:
+        if the node is not none, and the node has a left child, take the index of the left child,
+        subract the nodes's value by the left child's value.
+        save the above in the matrix in the node's index column, and the left child's index row
+        Do the same for the right child'''
         def __visit__(n, h):
             if (n != None):
                 # row of matrix to insert

@@ -13,8 +13,9 @@ def main():
     tree_arr = tree.getArr()
     # create the matrix that we will be using to input the values
     matrix = tree.createMatrix()
-    
-    tree.extractValues(tree_arr, matrix)  
+    # extracts all the values from the tree array and fills the matrix
+    tree.extractValues(tree_arr, matrix) 
+    # prints completed matrix 
     tree.printMatrix(matrix)
      
         
