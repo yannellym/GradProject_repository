@@ -31,14 +31,26 @@ def main():
         
     # problem 2
     num_arr = [[50, 120, 250, 100, 20, 300, 200],[12.4, 45.9, 8.1, 79.8, -13.64, 5.09]]
-    # Runs a loop ith times. With i being the length of the arr_store.
+    # Runs a loop ith times. With i being the length of the num_arr
     for i in range(len(num_arr)):
-        # passes the arr in position i of the arr_store and the number in position i of nums
-        # prints the return statement from the divisible_by function
+        # passes the arr in position i of the num_arr 
+        # prints the return statement from the smallest_gap function
         print("**Problem 2 answer:")
         print(smallest_gap(num_arr[i]))
         
     # problem 3
+    matrix_nums = [2,3]
+    matrix_1_arrs = [[[2,7],[3,5]], [[1,0,2],[3,-2,5],[6,2,-3]]]
+    matrix_2_arrs = [[[8, -4], [6,6]] , [[.3, .25, .1],[.4, .8, 0],[-.5, .75, .6]]]
+    
+    # Runs a loop ith times. With i being the length of the matrix_nums
+    for i in range(len(matrix_nums)):
+        # passes the matrix in position i of the matrix_1_arrs and the the matrix in position i of the matrix_2_arrs
+        # prints the matrix built by multiplying the columns and rows of the matrices
+        print("**Problem 3 answer:")
+        result = matrix_product(matrix_nums[i], matrix_1_arrs[i], matrix_2_arrs[i])
+        for r in result:
+           print(r) 
     
 
 def divisible_by(arr, n):
@@ -84,7 +96,30 @@ def smallest_gap(num_arr):
         i += 1
     return gap
      
-        
+def matrix_product(n, matrix1, matrix2):
+    '''
+    Parameters:
+    - n:
+    - matrix1:
+    - matrix2:
+    
+    Variables:
+    result : will store the final matrix that is obtained by multiplying the colum and rows of matrix1 with matrix
+    
+    Function will look through each row in matrix 1 and multiply its numbers by each number in matrix2 column.
+    Then, it will save the result in the result variable.
+    At the end, it will print each row in the results variable.
+    
+    Return:
+    - result : the variable with the final matrix that is obtained by multiplying the colum and rows of matrix1 and matrix2
+    '''
+    
+    # gets all the rows in in matrix1 and all the columns in matrix2
+    # zips together matrix1 and matrix2
+    # takes each digit in matrix1 and matrix2 and multiplies them
+    # rounds the multiplication result by the num of columns
+    result = [[ round(sum(a*b for a,b in zip(matrix1_row, matrix2_col)), n) for matrix2_col in zip(*matrix2)] for matrix1_row in matrix1]
+    return result    
           
           
 main()
