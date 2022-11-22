@@ -1,19 +1,19 @@
 def main():
-    # selectionSort([63, 44, 17, 77, 20, 6, 99, 84, 52, 39])
-    # selectionSort([84, 52, 39, 6, 20, 17, 77, 99, 63, 44])
-    # selectionSort([99, 84, 77, 63, 52, 44, 39, 20, 17, 6])
-    # bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52])
-    # bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63])
-    # bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99])
-    #power(9,3)
-    evaluate("12.3 + 40.7𝑥 − 9.1𝑥2 + 7.7𝑥3 + 6.4𝑥4 + 8.9𝑥6", 5.4)
-    pass
-
-
-
-
-
-
+    selectionSort([63, 44, 17, 77, 20, 6, 99, 84, 52, 39]) # returns -> Number of comparisons required to sort the array: 45
+    selectionSort([84, 52, 39, 6, 20, 17, 77, 99, 63, 44]) # returns -> Number of comparisons required to sort the array: 45
+    selectionSort([99, 84, 77, 63, 52, 44, 39, 20, 17, 6]) # returns -> Number of comparisons required to sort the array: 45
+    bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52]) # returns -> Number of comparisons: 10, number of swaps: 22 
+    bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63]) # returns -> Number of comparisons: 10, number of swaps: 25 
+    bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99]) # returns -> Number of comparisons: 10, number of swaps: 45 
+    evaluate([12.3, 40.7, -9.1, 7.7, 6.4, 0, 8.9], 5.4)  # returns -> 227373.04
+    
+    # asymptotic analysis for evalute function:
+      # n - 2 number of multiplications needed for any polynomial of degree n
+      # Big-Oh : (n - 2) +  n + n  =  O(n) 
+    
+    
+    
+    
 # Helper functions for main
 
 # 1) a) Write Python code for the selection sort algorithm to sort an array into ascending order. 
@@ -103,32 +103,13 @@ def power(x,p):
     res = 1
     for i in range(p):
         res *= x
-    print(abs(res))
+    return res
         
 def evaluate(A, x):
-    x = str(x)
-    arr = A.replace("𝑥", f"({x})")
-    # arr = 12.3 + 40.7(5.4) − 9.1(5.4)2 + 7.7(5.4)3 + 6.4(5.4)4 + 8.9(5.4)6
-    res = 0
-    for i in range(len(arr) - 1):
-        sec = ""
-        expo = ""
-        if arr[i] == "(":
-            for j in arr[i+1:]:
-                if j == ")":
-                    idx = arr.index(j)
-                    expo = arr[idx+1]
-                    break
-                sec += j
-        else:
-            continue
-        power(float(sec), int(expo) if expo != " " else 0)
-    #print(res)   #print(float(sec), int(expo) if expo != " " else 0)
+    for i in range(3, len(A)):
+        A[i] = A[i] * power(x, i)
+    return round(sum(A),2)
             
-            
-    
-    
-
 
 main()
  
