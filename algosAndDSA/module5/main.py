@@ -1,15 +1,15 @@
 def main():
-    selectionSort([63, 44, 17, 77, 20, 6, 99, 84, 52, 39]) # returns -> Number of comparisons required to sort the array: 45
-    selectionSort([84, 52, 39, 6, 20, 17, 77, 99, 63, 44]) # returns -> Number of comparisons required to sort the array: 45
-    selectionSort([99, 84, 77, 63, 52, 44, 39, 20, 17, 6]) # returns -> Number of comparisons required to sort the array: 45
-    bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52]) # returns -> Number of comparisons: 10, number of swaps: 22 
-    bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63]) # returns -> Number of comparisons: 10, number of swaps: 25 
-    bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99]) # returns -> Number of comparisons: 10, number of swaps: 45 
+    # selectionSort([63, 44, 17, 77, 20, 6, 99, 84, 52, 39]) # returns -> Number of comparisons required to sort the array: 45
+    # selectionSort([84, 52, 39, 6, 20, 17, 77, 99, 63, 44]) # returns -> Number of comparisons required to sort the array: 45
+    # selectionSort([99, 84, 77, 63, 52, 44, 39, 20, 17, 6]) # returns -> Number of comparisons required to sort the array: 45
+    # bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52]) # returns -> Number of comparisons: 10, number of swaps: 22 
+    # bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63]) # returns -> Number of comparisons: 10, number of swaps: 25 
+    # bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99]) # returns -> Number of comparisons: 10, number of swaps: 45 
     evaluate([12.3, 40.7, -9.1, 7.7, 6.4, 0, 8.9], 5.4)  # returns -> 227373.04
     
     # asymptotic analysis for evalute function:
       # n - 2 number of multiplications needed for any polynomial of degree n
-      # Big-Oh : (n - 2) +  n + n  =  O(n) 
+      # Big-Oh : (n - 2) +  n + n + 1 + 1 + n + n + 1 + 1 =  O(n) 
     
     
     
@@ -100,16 +100,21 @@ def bubbleSort(A):
 
 
 def power(x,p):
-    res = 1
-    for i in range(p):
-        res *= x
-    return res
+    res = 1   # O(1)
+    for i in range(p): # O(p)
+        res *= x # 0(p)
+    return res # O(1)
         
 def evaluate(A, x):
-    for i in range(3, len(A)):
-        A[i] = A[i] * power(x, i)
-    return round(sum(A),2)
-            
+    for i in range(2, len(A)):  #O(n-2)    # this starts at 2 because nums at 1 and 2 do not need to be computed. They will equal themselves
+        A[i] = A[i] * power(x, i) # O(n)
+    
+    sum = 0 # O(1)
+    for num in A:  # O(n)
+        sum += num # O(n)
+        
+    print(round(sum, 2)) # 0(1)
+    return round(sum, 2) # 0(1)     
 
 main()
  
