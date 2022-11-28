@@ -8,11 +8,8 @@ def main():
     evaluate([12.3, 40.7, -9.1, 7.7, 6.4, 0, 8.9], 5.4)  # returns -> 227295.86
     
     # asymptotic analysis for evalute function:
-      # n - 2 number of multiplications needed for any polynomial of degree n
+      # n number of multiplications needed for any polynomial of degree n
       # Big-Oh : (n) +  n + n + 1 + 1 + n + n + 1 + 1 =  O(n) 
-    
-    
-    
     
 # Helper functions for main
 
@@ -41,7 +38,6 @@ def Swap(A, i, j):
     # makes the value at the jth position equal to the value in the temp variable
     A[j] = temp 
     # K largest elements will be placed into the last k slots of the array
-    print(A) # after each iteration, prints the array
 
 # Input: An array A of integers. 
 # Output: Array A sorted in increasing order.
@@ -55,6 +51,7 @@ def selectionSort(A):
             if A[j] > A[m]:   # if the value at the jth position is greather than the value at the m position
                 m = j # let value m equal j
         Swap(A, i, m) # call the swap function
+        print(A)
     print(f"Number of comparisons required to sort the array: {comparisons}") # print a final statement with the number of comparisons 
  
    
@@ -79,14 +76,15 @@ def selectionSort(A):
 def bubbleSort(A):
     comparisons = 0 # number of comparisons in the array
     swaps = 0  # num of swaps in the array
-    print(f"Initial array: {A}")
+    #print(f"Initial array: {A}")
     
-    for i in range(len(A)-1, -1, -1): 
-        comparisons += 1 
-        for j in range(len(A)-2, -1, -1): # after k iterations, the k smallest element will be sorted at end of array.
-            if A[j+1] > A[j]:   # if the value at the jth + 1 position is greather than the value at the jth position
+    for i in range(len(A)-1): 
+        for j in range(len(A)-i-1): # after k iterations, the k smallest element will be sorted at end of array.
+            comparisons += 1 
+            if A[j] < A[j+1] :   # if the value at the jth + 1 position is greather than the value at the jth position
                 swaps += 1   # increment the swap counter
-                Swap(A, j  , j+1)  # call the swap function
+                Swap(A, j ,j+1)
+        print(A)
     print(f"Number of comparisons: {comparisons}, number of swaps: {swaps} ") # print a final statement with the number of comparisons and swaps
   
     
@@ -111,18 +109,14 @@ def power(x,p):
     return res # O(1)
         
 def evaluate(A, x):
+    summ = 0 # will hold the sum of the values computed by the swap function and A[i]
     for i in range(len(A)):  #O(n)    # the loop will run n amount of times
         # for each value of A at ith position, it will call the power function on that value
         # will set the value at the ith position to be the new value returned by multiplying the old value and the return value of the power function
-        A[i] = A[i] * power(x, i) # O(n)  
+        summ += (A[i] * power(x, i)) # Swap is O(n) , and this computation is O(1)
     
-    sum = 0 # O(1)
-    # will go through each value in A and add it to the sum
-    for num in A:  # O(n)
-        sum += num # O(n)
-    # returns the sum of all the values in A rounded to two decimal places   
-    print(round(sum, 2)) # 0(1)
-    return round(sum, 2) # 0(1)     
+    print(round(summ, 2)) # 0(1)
+    return round(summ, 2) # 0(1)     
 
 main()
  
