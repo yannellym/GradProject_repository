@@ -2,10 +2,10 @@ def main():
     # selectionSort([63, 44, 17, 77, 20, 6, 99, 84, 52, 39]) # returns -> Number of comparisons required to sort the array: 45
     # selectionSort([84, 52, 39, 6, 20, 17, 77, 99, 63, 44]) # returns -> Number of comparisons required to sort the array: 45
     # selectionSort([99, 84, 77, 63, 52, 44, 39, 20, 17, 6]) # returns -> Number of comparisons required to sort the array: 45
-    # bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52]) # returns -> Number of comparisons: 10, number of swaps: 22 
-    # bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63]) # returns -> Number of comparisons: 10, number of swaps: 25 
-    # bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99]) # returns -> Number of comparisons: 10, number of swaps: 45 
-    evaluate([12.3, 40.7, -9.1, 7.7, 6.4, 0, 8.9], 5.4)  # returns -> 227295.86
+    # bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52]) # returns -> Number of comparisons: 45, number of swaps: 22 
+    # bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63]) # returns -> Number of comparisons: 45, number of swaps: 25 
+    # bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99]) # returns -> Number of comparisons: 45, number of swaps: 45 
+    # evaluate([12.3, 40.7, -9.1, 7.7, 6.4, 0, 8.9], 5.4)  # returns -> 227295.86
     
     # asymptotic analysis for evalute function:
       # n number of multiplications needed for any polynomial of degree n

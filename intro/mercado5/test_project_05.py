@@ -13,7 +13,7 @@ class TestStudent(unittest.TestCase):
         # Assert
         # will check if the return from the display method is correct
         # answer should equal the object's name and age.
-        self.assertEqual(general_student.display(),"The name is Maria and age is 16.")
+        self.assertEqual(general_student.display(),"The name is Maria and age is 56.")
         
     def test_EngineerDisplay(self):
         # Arrange
