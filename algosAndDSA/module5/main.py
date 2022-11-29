@@ -1,10 +1,10 @@
 def main():
-    # selectionSort([63, 44, 17, 77, 20, 6, 99, 84, 52, 39]) # returns -> Number of comparisons required to sort the array: 45
-    # selectionSort([84, 52, 39, 6, 20, 17, 77, 99, 63, 44]) # returns -> Number of comparisons required to sort the array: 45
-    # selectionSort([99, 84, 77, 63, 52, 44, 39, 20, 17, 6]) # returns -> Number of comparisons required to sort the array: 45
-    # bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52]) # returns -> Number of comparisons: 45, number of swaps: 22 
-    # bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63]) # returns -> Number of comparisons: 45, number of swaps: 25 
-    # bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99]) # returns -> Number of comparisons: 45, number of swaps: 45 
+    selectionSort([63, 44, 17, 77, 20, 6, 99, 84, 52, 39]) # returns -> Number of comparisons required to sort the array: 45
+    selectionSort([84, 52, 39, 6, 20, 17, 77, 99, 63, 44]) # returns -> Number of comparisons required to sort the array: 45
+    selectionSort([99, 84, 77, 63, 52, 44, 39, 20, 17, 6]) # returns -> Number of comparisons required to sort the array: 45
+    bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52]) # returns -> Number of comparisons: 45, number of swaps: 22 
+    bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63]) # returns -> Number of comparisons: 45, number of swaps: 25 
+    bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99]) # returns -> Number of comparisons: 45, number of swaps: 45 
     evaluate([12.3, 40.7, -9.1, 7.7, 6.4, 0, 8.9], 5.4)  # returns -> 227295.86
     
     # asymptotic analysis for evalute function:
@@ -116,12 +116,15 @@ def power(x,p):
         
 def evaluate(A, x):
     summ = 0 # will hold the sum of the values computed by the swap function and A[i]
+    multis = 0
     for i in range(len(A)):  #O(n)    # the loop will run n amount of times
+        multis += i
         # for each value of A at ith position, it will call the power function on that value
         # will set the value at the ith position to be the new value returned by multiplying the old value and the return value of the power function
         summ += (A[i] * power(x, i)) # Swap is O(n) , and this computation is O(1)
     
     print(round(summ, 2)) # 0(1)
+    print(multis + len(A))
     return round(summ, 2) # 0(1)     
     # line   cost   count 
     # 2      c1      1
