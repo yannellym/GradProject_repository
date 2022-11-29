@@ -5,7 +5,7 @@ def main():
     # bubbleSort([44, 63, 77, 17, 20, 99, 84, 6, 39, 52]) # returns -> Number of comparisons: 45, number of swaps: 22 
     # bubbleSort([52, 84, 6, 39, 20, 77, 17, 99, 44, 63]) # returns -> Number of comparisons: 45, number of swaps: 25 
     # bubbleSort([6, 17, 20, 39, 44, 52, 63, 77, 84, 99]) # returns -> Number of comparisons: 45, number of swaps: 45 
-    # evaluate([12.3, 40.7, -9.1, 7.7, 6.4, 0, 8.9], 5.4)  # returns -> 227295.86
+    evaluate([12.3, 40.7, -9.1, 7.7, 6.4, 0, 8.9], 5.4)  # returns -> 227295.86
     
     # asymptotic analysis for evalute function:
       # n number of multiplications needed for any polynomial of degree n
@@ -22,7 +22,7 @@ def main():
     # array.
     # iii) Throughout the run, count the number of times two array elements are compared. Be 
     # sure to count the number of comparisons not just the number of comparisons that evaluate 
-    # to True. When the algorithm concludes, use a print statement to display the total number 
+    # to True. When the algorithm concludes, use a print statement to display the total number ``
     # of comparisons of array elements required to sort the array.
     
 # 2) Check your algorithm on the problem instances:
@@ -107,6 +107,12 @@ def power(x,p):
     for i in range(p): # O(p)
         res *= x # 0(p)
     return res # O(1)
+    # line   cost   count 
+    # 2      c1      1
+    # 3      c2      n
+    # 4      c3      1
+    # 5      c4      1
+    # (c1, c3, c4) 1 + (c2)n = O(n)
         
 def evaluate(A, x):
     summ = 0 # will hold the sum of the values computed by the swap function and A[i]
@@ -117,6 +123,13 @@ def evaluate(A, x):
     
     print(round(summ, 2)) # 0(1)
     return round(summ, 2) # 0(1)     
+    # line   cost   count 
+    # 2      c1      1
+    # 3      c2      n
+    # 4      c3      n
+    # 5      c4      1
+    # 6      c5      1 
+    # (c1, c4, c5) 1 + (c2,c3)n = O(n)
 
 main()
  
