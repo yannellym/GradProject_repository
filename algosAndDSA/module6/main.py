@@ -84,10 +84,12 @@ def main():
     #      = 1 + [1 + T(n / 2)] + 1        count = 1
     #      = 2 + [1 + T(n / 4)] + 1        count = 2
     #      = 3 + [1 + T(n / 6)] + 1        count = 3
-    #      = k + T(n / 2) + 1
+    #      = k + T(n / k)
     #      = n + T(0)
     #      = n + O
     #      O(n)
+    
+
     
     # 1) d)
     # T(n) = 1 + T(n / 2) + 1     n = 4
@@ -104,22 +106,26 @@ def main():
     # Example 2:
       # n = 10
       # 1^2 + 2^2 + 3^2 + 4^2 + 5^2 + 6^2 + 7^2 + 8^2 + 9^2 + 10^2 = 385
-    n = 1
+    n = 5
     print(getSum_squares(n))
     n = 10
     print(getSum_squares(n))
     
     # 2) c)
     # T(n) = 2 + T(n - 1) + n * n      
-    #      
+    # T(20) = 2 + T(19) + n^2     count 1
+    # T(10) = 4 + T(9) + n^2      count 2
+    # T(5)  = 6 + T(4) + n^2      count 3
+     
     
     # 2) d) 
     # back substitution method 
     # T(n) = 2 + T(n - 1) + n * n 
-    #      = 2[1 (n-1)] + T(n-2)]   
-    #      = 2[1 (n-1) + [T(n-2) +  (n-3)]  
-    #      = 2[1 (n-1) + (n-2) + (n-3)
-    #      = 2 * n(n +1) / 2
+    #      = 2[1 (n-1)] + T(n-2)] +  n^2             count 1
+    #      = 2[1 (n-1) + [T(n-2) +  (n-3)] +  n^2    count 2
+    #      = 2[1 (n-1) + (n-2) + (n-3) +  n^2        count 3
+    #      = 2 * n(n+1) / 2 +  n^2  
+    #      = (k * 2) + T(n-k) + n^2
     #      =  O(n)^2
 
 main()
