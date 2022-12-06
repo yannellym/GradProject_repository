@@ -1,15 +1,18 @@
-import math
 def main():
     A1, n1 = [12,  23,  37,  45,  63,  82,  47,  75,  91,  88,  102], 11           # 60.45454545454545 -> rounded to nearest whole num = 60
     A2, n2 = [-1.7,  6.5,  8.2,  0.0,  4.7,  6.3,  9.5,  12.2,  37.9,  53.2], 10   # 13.68 -> rounded to nearest whole num = 14
+    
     # print(mean(A1, n1))
     # print(mean(A2, n2))
     
-    A = [2, 5, 9, 12, 17, 23, 27, 31, 36, 39, 44]          # [100, 87, 85, 80, 72, 67, 55, 50, 48, 42, 40, 31, 25, 22, 18]
-    k1, k2 , k3, k4 = 12, 48, 33, 10
+    A = [100, 87, 85, 80, 72, 67, 55, 50, 48, 42, 40, 31, 25, 22, 18]
+    k1, k2 , k3, k4 = 87, 48, 33, 10
     start, end = 0, len(A)-1
     
-    binarySearch(A, start, end, k1)
+    # print(binarySearch(A, start, end, k1))
+    # print(binarySearch(A, start, end, k2))
+    # print(binarySearch(A, start, end, k3))
+    # print(binarySearch(A, start, end, k4))
     
 
 
@@ -46,18 +49,17 @@ Output: index i such that A[i] = k or none if no match is found
 '''        
 def binarySearch(A, start, end, k):
 
-    if start > end: 
+    if start > end: # if the search key is not in the array, return None
         return None
     else:
-        mid = (start + end) // 2
-        print(mid)
+        mid = (start + end) // 2  # add the start plus the end and divide it by 2. Then, round it down in case of a float value
+        print(A[start:mid+1]) # print out all the subscripts in the array that were examined during the search
         if A[mid] == k:
-            print(mid)
-            return mid
+            return (A[start:mid+1])  # subscript of the one “middle” element that is compared to the searchkey
         elif k > A[mid]:
-            return binarySearch(A, mid + 1 , end, k)
+            return binarySearch(A, start, mid - 1 , k)
         else:
-            return binarySearch(A, start, mid - 1, k)
+            return binarySearch(A,mid + 1, end,  k)
 
     
 # 3) A “decrease-by-a variable amount” algorithm - Euclidean Algorithm for Greatest 
@@ -72,5 +74,12 @@ def binarySearch(A, start, end, k):
 # i) GCD (2468, 1357) 
 # ii) GCD (111, 378) 
 # iii) GCD (123456789, 987654321)  
+
+def GDC(m,n):
+    if n ==0:
+        return m
+    else:
+        return GDC(n, m % n)
+        
 
 main()
