@@ -74,30 +74,34 @@ def main():
             # - > 75 // 2 = 37
             # decimal = 37 binary  = 100101
             # 1001011 len = 7  and 100101 len = 6          
-    # decimal_number = 75
-    # print(getbinary(decimal_number))
-    # decimal_number = 32
-    # print(getbinary(decimal_number))
+    decimal_number = 32
+    print(getbinary(decimal_number))
+    decimal_number = 75
+    print(getbinary(decimal_number))
     
     # 1) c) 
-    # T(n) = 1 + T(n / 2) + 1              n = 6
-    #      = 1 + [1 + T(n / 2)] + 1        count = 1
-    #      = 2 + [1 + T(n / 4)] + 1        count = 2
-    #      = 3 + [1 + T(n / 6)] + 1        count = 3
-    #      = k + T(n / k)
-    #      = n + T(0)
-    #      = n + O
-    #      O(n)
-    
+    # T(n) = 2 + T(n / 2)              
+    #      = 2 + [2 + T(n / 4)] = 4 + T(n/4)     count 1
+    #      = 4 + [2 + T(n / 8)] = 6 + T(n/8)     count 2
+    #      = 6 + [2 + T(n / 16)] = 10 + T(n/16)  count 3
+    #      = 8 + [2 + T(n / 32)] = 10 + T(n/32)  count 4
+    #      = 2k + T(n/2^k)
+    #     t(1)   n = 2^k 
+    #     k = lg(n)
+    #     2lg(n) + T(1)
+    #     2 lg(n) + 1
+    #     O(lg(n))   
 
     
     # 1) d)
-    # T(n) = 1 + T(n / 2) + 1     n = 4
-    # T(n) = 1 + T(n / 2) + n^0
-    # a =  1, b = 3 , d = 0
-    # 1 = 3^0 = 1
-    # case 2: a = b^d  then T(n) = 0(n^d * lg(n))
-    # Big Oh ->  O(n^d * lg(n))
+    # T(n) = 2 + T(n / 2)   
+    # T(n) = 2 + T(n / 2) + n^0
+    # a =  2, b = 2 , d = 1
+    # 2 =    2^0 = 1
+    # case 3: a > b^d  then T(n) = O(n ^ (log b^a))
+    # Big Oh ->  O(n ^ (log b^a))
+    
+    
     
     # 2) b) 
     # Example 1:
@@ -119,13 +123,27 @@ def main():
      
     
     # 2) d) 
-    # back substitution method 
-    # T(n) = 2 + T(n - 1) + n * n 
-    #      = 2[1 (n-1)] + T(n-2)] +  n^2             count 1
-    #      = 2[1 (n-1) + [T(n-2) +  (n-3)] +  n^2    count 2
-    #      = 2[1 (n-1) + (n-2) + (n-3) +  n^2        count 3
-    #      = 2 * n(n+1) / 2 +  n^2  
-    #      = (k * 2) + T(n-k) + n^2
-    #      =  O(n)^2
+    ''' back substitution method 
+    # T(n) = 3 + T(n - 2) t(0)= 1
+    # 3 + 3 + t(n-4)
+    # 3 + 3+ 3 + t(n-6)
+    # 3 + 3+ 3 + 3 + t(N-8)
+    # t(n) = 3 +3 +3 ... + 3/k  + t(n-2k)
+    # t(n-2k) 
+    # n-2k = 0
+    # n = 2k
+    # n/2 = k
+    # 3 + 3 +3 ... + 3 / n/2 + t(0)
+    # = n/2(3) + 1
+    # 3/2 (n) + 1
+    # = O(n)
+    '''
+    
+        #  = 2[1 (n-1)] + T(n-2)] +  n^2             count 1
+        #  = 2[1 (n-1) + [T(n-2) +  (n-3)] +  n^2    count 2
+        #  = 2[1 (n-1) + (n-2) + (n-3) +  n^2        count 3
+        #  = 2 * n(n+1) / 2 +  n^2  
+        #  = (k * 2) + T(n-k) + n^2
+        #  =  O(n)^2
 
 main()
