@@ -1,7 +1,7 @@
 def main():
     # problem 1
-    A1, n1 = [12,  23,  37,  45,  63,  82,  47,  75,  91,  88,  102], 11           # 60.45454545454545 -> rounded to nearest whole num = 60
-    A2, n2 = [-1.7,  6.5,  8.2,  0.0,  4.7,  6.3,  9.5,  12.2,  37.9,  53.2], 10   # 13.68 -> rounded to nearest whole num = 
+    A1, n1 = [12,  23,  37,  45,  63,  82,  47,  75,  91,  88,  102], 11           # 60.45454545454545 
+    A2, n2 = [-1.7,  6.5,  8.2,  0.0,  4.7,  6.3,  9.5,  12.2,  37.9,  53.2], 10   # 13.68 
     # print(mean(A1, n1))
     # print(mean(A2, n2))
     
@@ -10,7 +10,7 @@ def main():
     k1, k2 , k3, k4 = 87, 48, 33, 10
     start, end = 0, len(A)-1
     # print("problem 2")
-    # print(binarySearch(A, start, end, k1))        # => [100, 87]
+    print(binarySearch(A, start, end, k1))        # => [100, 87]
     # print(binarySearch(A, start, end, k2))        # => [48]
     # print(binarySearch(A, start, end, k3))        # =>  None
     # print(binarySearch(A, start, end, k4))        # =>  None
@@ -42,7 +42,7 @@ def mean(A, n):
     else:
         # else, return the result of n/1 times the result of calling the function again with n-1
         # then add this result to 1/n times n-1
-        return  round( ((n-1)/n) * mean(A, n-1)  + (1/n) * A[n-1])
+        return ((n-1)/n) * mean(A, n-1)  + (1/n) * A[n-1]
 
 
 # 2) A “decrease-by-a constant factor” algorithm – Binary search
@@ -62,7 +62,7 @@ def binarySearch(A, start, end, k):
         return None
     else:
         mid = (start + end) // 2  # add the start plus the end and divide it by 2. Then, round it down in case of a float value
-        print(A[start:mid+1]) # print out all the subscripts in the array that were examined during the search
+        print(A[mid+1:]) # print out all the subscripts in the array that were examined during the search (the ones where the KEY was NOT present)
         if A[mid] == k:
             return (A[start:mid+1])  # subscript of the one “middle” element that is compared to the searchkey
         elif k > A[mid]:
