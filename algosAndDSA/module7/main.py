@@ -2,29 +2,30 @@ def main():
     # problem 1
     A1, n1 = [12,  23,  37,  45,  63,  82,  47,  75,  91,  88,  102], 11           # 60.45454545454545 
     A2, n2 = [-1.7,  6.5,  8.2,  0.0,  4.7,  6.3,  9.5,  12.2,  37.9,  53.2], 10   # 13.68 
-    # print(mean(A1, n1))
-    # print(mean(A2, n2))
+    print("problem 1")
+    print(mean(A1, n1))
+    print(mean(A2, n2))
     
     # problem 2
     A = [100, 87, 85, 80, 72, 67, 55, 50, 48, 42, 40, 31, 25, 22, 18] 
     k1, k2 , k3, k4 = 87, 48, 33, 10
     start, end = 0, len(A)-1
-    # print("problem 2")
+    print("problem 2")
     print(binarySearch(A, start, end, k1))        # => [100, 87]
-    # print(binarySearch(A, start, end, k2))        # => [48]
-    # print(binarySearch(A, start, end, k3))        # =>  None
-    # print(binarySearch(A, start, end, k4))        # =>  None
+    print(binarySearch(A, start, end, k2))        # => [48]
+    print(binarySearch(A, start, end, k3))        # =>  None
+    print(binarySearch(A, start, end, k4))        # =>  None
     
     # problem 3
     l1, l2 = 2468, 1357              
     m1, m2 = 111, 378                
     n1, n2 = 123456789, 987654321 
-    # print(GDC(30, 70))       # -> 10
-    # print(GDC(60, 24))       # -> 12
-    # print("problem 3")
-    # print(GDC(l1, l2))       # -> 1
-    # print(GDC(m1, m2))       # -> 3
-    # print(GDC(n1, n2))       # -> 9
+    print(GDC(30, 70))       # -> 10
+    print(GDC(60, 24))       # -> 12
+    print("problem 3")
+    print(GDC(l1, l2))       # -> 1
+    print(GDC(m1, m2))       # -> 3
+    print(GDC(n1, n2))       # -> 9
 
 
 # 1) A “decrease-by-a constant amount” algorithm - Mean of an array  
